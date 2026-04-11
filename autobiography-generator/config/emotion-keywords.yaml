@@ -1,0 +1,75 @@
+# emotion-keywords.yaml — 한-흥-정 keyword sets for emotional balance validation
+# Used by scripts/validate_emotional_balance.py (§22.3)
+# These are Korean emotion keywords mapped to three emotional dimensions.
+
+han:  # 한 (恨) — deep sorrow, longing, accumulated grief
+  keywords:
+    - "그리움"
+    - "아픔"
+    - "슬픔"
+    - "눈물"
+    - "한숨"
+    - "외로움"
+    - "쓸쓸"
+    - "서러움"
+    - "아쉬움"
+    - "후회"
+    - "그립다"
+    - "서럽다"
+    - "외롭다"
+    - "쓸쓸하다"
+    - "눈시울"
+    - "가슴이 아프"
+    - "목이 메"
+    - "허전"
+    - "막막"
+    - "답답"
+  weight: 1.0
+
+heung:  # 흥 (興) — joy, exuberance, vitality, collective energy
+  keywords:
+    - "기쁨"
+    - "웃음"
+    - "즐거움"
+    - "신나"
+    - "흥겨"
+    - "환호"
+    - "축하"
+    - "자부심"
+    - "뿌듯"
+    - "활기"
+    - "설레"
+    - "두근"
+    - "벅차"
+    - "흐뭇"
+    - "유쾌"
+    - "통쾌"
+    - "후련"
+    - "감격"
+    - "짜릿"
+    - "생기"
+  weight: 1.0
+
+jeong:  # 정 (情) — affection, attachment, deep bonds, warmth between people
+  keywords:
+    - "정"
+    - "사랑"
+    - "따뜻"
+    - "다정"
+    - "정겨"
+    - "온기"
+    - "포근"
+    - "살갑"
+    - "그리운 사람"
+    - "고마움"
+    - "감사"
+    - "은혜"
+    - "배려"
+    - "손길"
+    - "함께"
+    - "어깨"
+    - "마음"
+    - "품"
+    - "위로"
+    - "보살핌"
+  weight: 1.0

@@ -1,0 +1,443 @@
+% memoir-print.latex — Print-ready LaTeX template for 6x9 US Trade (Amazon KDP / IngramSpark)
+% This is a thin wrapper that sets print-specific variables then includes the main template.
+% Invoked by: pandoc --template=templates/memoir-print.latex --pdf-engine=xelatex
+%
+% Differences from memoir.latex:
+%   - 6x9 stock size with proper margins for KDP
+%   - Two-sided layout (odd/even page margins differ)
+%   - Micro-typography enabled
+%   - No hyperlink coloring
+
+\documentclass[12pt, twoside, openright]{memoir}
+
+%%% ============================================================
+%%% FONTS (identical to main template)
+%%% ============================================================
+\usepackage{fontspec}
+
+\IfFontExistsTF{EB Garamond}{%
+  \setmainfont{EB Garamond}[
+    BoldFont       = {EB Garamond Bold},
+    ItalicFont     = {EB Garamond Italic},
+    BoldItalicFont = {EB Garamond Bold Italic},
+    Numbers        = OldStyle,
+    Ligatures      = TeX,
+  ]
+}{%
+  \setmainfont{TeX Gyre Termes}[
+    BoldFont       = {TeX Gyre Termes Bold},
+    ItalicFont     = {TeX Gyre Termes Italic},
+    BoldItalicFont = {TeX Gyre Termes Bold Italic},
+  ]
+}
+\setsansfont{TeX Gyre Heros}
+\setmonofont{TeX Gyre Cursor}
+
+%%% CJK support
+$if(cjk)$
+\usepackage{xeCJK}
+\IfFontExistsTF{Noto Serif CJK KR}{%
+  \setCJKmainfont{Noto Serif CJK KR}[
+    BoldFont   = Noto Serif CJK KR Bold,
+    ItalicFont = Noto Serif CJK KR,
+    ItalicFeatures = {FakeSlant=0.2},
+  ]
+}{}
+$endif$
+
+%%% ============================================================
+%%% LANGUAGE
+%%% ============================================================
+\usepackage{polyglossia}
+\setmainlanguage{english}
+
+%%% ============================================================
+%%% PAGE LAYOUT — 6x9 US Trade
+%%% ============================================================
+\setstocksize{9in}{6in}
+\settrimmedsize{9in}{6in}{*}
+
+% Inner (gutter) margin: varies by page count
+% Default 0.75in handles up to ~300 pages
+% For 300-500 pages use 0.875in, for 500+ use 1.0in
+\setlrmarginsandblock{$if(inner-margin)$$inner-margin$$else$0.75in$endif$}{0.5in}{*}
+\setulmarginsandblock{0.75in}{0.75in}{*}
+\checkandfixthelayout
+
+%%% ============================================================
+%%% MICRO-TYPOGRAPHY (production quality)
+%%% ============================================================
+\usepackage{microtype}
+
+%%% ============================================================
+%%% HEADERS AND FOOTERS — Two-sided layout
+%%% ============================================================
+\makepagestyle{autobiography}
+\makeevenhead{autobiography}{\small\itshape\leftmark}{}{}
+\makeoddhead{autobiography}{}{}{\small\itshape\rightmark}
+\makeevenfoot{autobiography}{\thepage}{}{}
+\makeoddfoot{autobiography}{}{}{\thepage}
+\pagestyle{autobiography}
+
+\makepagestyle{plain}
+\makeevenhead{plain}{}{}{}
+\makeoddhead{plain}{}{}{}
+\makeevenfoot{plain}{\thepage}{}{}
+\makeoddfoot{plain}{}{}{\thepage}
+
+%%% ============================================================
+%%% CHAPTER STYLE
+%%% ============================================================
+\makechapterstyle{autobiographychapter}{%
+  \chapterstyle{default}
+  \renewcommand*{\chapnumfont}{\normalfont\Large\scshape}
+  \renewcommand*{\chaptitlefont}{\normalfont\Huge\itshape}
+  \renewcommand*{\printchaptername}{}
+  \renewcommand*{\chapternamenum}{}
+  \renewcommand*{\printchapternum}{%
+    \centering
+    \chapnumfont Chapter \thechapter
+    \par\nobreak\vskip 10pt
+  }
+  \renewcommand*{\printchaptertitle}[1]{%
+    \centering
+    \chaptitlefont ##1
+    \par\nobreak\vskip 30pt
+  }
+  \renewcommand*{\afterchapternum}{}
+}
+\chapterstyle{autobiographychapter}
+
+%%% ============================================================
+%%% SECTION STYLES
+%%% ============================================================
+\setsecheadstyle{\large\bfseries\memRTLraggedright}
+\setsubsecheadstyle{\normalsize\bfseries\memRTLraggedright}
+
+%%% ============================================================
+%%% PARAGRAPH STYLE
+%%% ============================================================
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0pt plus 1pt}
+\abnormalparskip{0.5\baselineskip}
+
+%%% ============================================================
+%%% EPIGRAPH, QUOTE, SCENE BREAKS
+%%% ============================================================
+\setlength{\epigraphwidth}{0.7\textwidth}
+\setlength{\epigraphrule}{0pt}
+\renewcommand{\epigraphflush}{center}
+\renewcommand{\sourceflush}{center}
+
+\renewenvironment{quote}
+  {\list{}{\rightmargin=1em\leftmargin=2em\itshape}%
+   \item\relax}
+  {\endlist}
+
+\newcommand{\scenebreak}{%
+  \par\vspace{1.5\baselineskip}
+  \noindent\hfil\rule{0.3\textwidth}{0.4pt}\hfil
+  \par\vspace{1.5\baselineskip}
+  \noindent
+}
+\newcommand{\scenebreakstars}{%
+  \par\vspace{1.5\baselineskip}
+  \noindent\hfil{*\quad*\quad*}\hfil
+  \par\vspace{1.5\baselineskip}
+  \noindent
+}
+\newcommand{\scenebreakdots}{%
+  \par\vspace{1.5\baselineskip}
+  \noindent\hfil{$\bullet$\quad$\bullet$\quad$\bullet$}\hfil
+  \par\vspace{1.5\baselineskip}
+  \noindent
+}
+\newcommand{\scenebreakblank}{%
+  \par\vspace{3\baselineskip}
+  \noindent
+}
+
+%%% ============================================================
+%%% DROP CAPS
+%%% ============================================================
+\usepackage{lettrine}
+\renewcommand{\LettrineFontHook}{\color{chaptercolor}}
+\setcounter{DefaultLines}{3}
+\renewcommand{\DefaultLoversize}{0.1}
+\renewcommand{\DefaultLhang}{0.05}
+
+%%% ============================================================
+%%% HYPERLINKS (no visible links for print)
+%%% ============================================================
+\usepackage[hidelinks, pdfusetitle, bookmarksnumbered]{hyperref}
+
+%%% ============================================================
+%%% IMAGES
+%%% ============================================================
+\usepackage{graphicx}
+\usepackage{float}
+$if(graphics-path)$
+\graphicspath{{$graphics-path$}}
+$endif$
+
+\setlength{\textfloatsep}{1.5\baselineskip plus 0.2\baselineskip minus 0.5\baselineskip}
+\setlength{\floatsep}{\baselineskip plus 0.2\baselineskip minus 0.5\baselineskip}
+
+\captionnamefont{\small\itshape}
+\captiontitlefont{\small}
+\captiondelim{ --- }
+\captionstyle{\centering}
+
+\newcommand{\photopage}[2]{%
+  \clearpage
+  \thispagestyle{empty}
+  \vspace*{\fill}
+  \begin{center}
+    \includegraphics[width=0.85\textwidth,keepaspectratio]{#1}
+    \par\vspace{0.5cm}
+    {\small\itshape #2}
+  \end{center}
+  \vspace*{\fill}
+  \clearpage
+}
+\newcommand{\inlinephoto}[3][0.6\textwidth]{%
+  \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=#1,keepaspectratio]{#2}
+    \caption{#3}
+  \end{figure}
+}
+\newcommand{\photospread}[4]{%
+  \begin{figure}[htbp]
+    \centering
+    \begin{minipage}[t]{0.48\textwidth}
+      \centering
+      \includegraphics[width=\textwidth,keepaspectratio]{#1}
+      \par\vspace{0.3cm}
+      {\small\itshape #2}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\textwidth}
+      \centering
+      \includegraphics[width=\textwidth,keepaspectratio]{#3}
+      \par\vspace{0.3cm}
+      {\small\itshape #4}
+    \end{minipage}
+  \end{figure}
+}
+
+%%% ============================================================
+%%% TABLES
+%%% ============================================================
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{array}
+
+%%% ============================================================
+%%% COLORS
+%%% ============================================================
+\usepackage{xcolor}
+\definecolor{chaptercolor}{gray}{0.3}
+
+%%% ============================================================
+%%% PANDOC FIXES
+%%% ============================================================
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+$if(csl-refs)$
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2]%
+  {\begin{list}{}{%
+   \setlength{\itemindent}{0pt}
+   \setlength{\leftmargin}{0pt}
+   \setlength{\parsep}{0pt}
+   \ifnum##1>0
+    \setlength{\leftmargin}{\cslhangindent}
+    \setlength{\itemindent}{-\cslhangindent}
+   \fi}
+  }
+  {\end{list}}
+\newcommand{\CSLBlock}[1]{##1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{##1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{##1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}##1}
+$endif$
+
+%%% ============================================================
+%%% METADATA
+%%% ============================================================
+$if(title)$
+\title{$title$}
+$endif$
+$if(author)$
+\author{$for(author)$$author$$sep$ \and $endfor$}
+$endif$
+$if(date)$
+\date{$date$}
+$endif$
+
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+%%% ============================================================
+%%% DOCUMENT
+%%% ============================================================
+
+\begin{document}
+
+\frontmatter
+
+% Half title
+\thispagestyle{empty}
+\vspace*{3cm}
+\begin{center}
+{\Large\itshape $if(title)$$title$$endif$}
+\end{center}
+\cleardoublepage
+
+% Title page
+\thispagestyle{empty}
+\vspace*{2cm}
+\begin{center}
+{\Huge\bfseries $if(title)$$title$$endif$}
+
+\vspace{1cm}
+$if(subtitle)$
+{\Large\itshape $subtitle$}
+
+\vspace{1cm}
+$endif$
+
+$if(author)$
+{\large $for(author)$$author$$sep$ \\ $endfor$}
+$endif$
+
+\vfill
+
+$if(publisher)$
+{\normalsize $publisher$}
+
+$endif$
+{\small $if(date)$$date$$endif$}
+\end{center}
+\cleardoublepage
+
+% Copyright page
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{flushleft}
+\small
+$if(title)$\textit{$title$}$endif$
+
+$if(author)$
+Copyright \copyright\ $if(date)$$date$$endif$ by $for(author)$$author$$sep$, $endfor$
+
+All rights reserved. No part of this publication may be reproduced,
+distributed, or transmitted in any form or by any means without the
+prior written permission of the author.
+$endif$
+
+$if(isbn)$
+
+ISBN: $isbn$
+$endif$
+
+$if(edition)$
+
+$edition$
+$endif$
+
+$if(copyright-note)$
+\vspace{0.5cm}
+$copyright-note$
+$endif$
+
+\vspace{1cm}
+{\footnotesize Printed in the United States of America}
+
+{\footnotesize First Edition, $if(date)$$date$$endif$}
+\end{flushleft}
+\cleardoublepage
+
+$if(dedication)$
+\thispagestyle{empty}
+\vspace*{5cm}
+\begin{center}
+\itshape
+$dedication$
+\end{center}
+\cleardoublepage
+$endif$
+
+$if(epigraph)$
+\thispagestyle{empty}
+\vspace*{4cm}
+\epigraph{$epigraph$}{$if(epigraph-author)$--- $epigraph-author$$endif$}
+\cleardoublepage
+$endif$
+
+$if(toc)$
+\tableofcontents*
+\cleardoublepage
+$endif$
+
+$if(foreword)$
+\chapter*{Foreword}
+\addcontentsline{toc}{chapter}{Foreword}
+$foreword$
+\cleardoublepage
+$endif$
+
+$if(preface)$
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+$preface$
+\cleardoublepage
+$endif$
+
+\mainmatter
+
+$body$
+
+\backmatter
+
+$if(acknowledgments)$
+\chapter*{Acknowledgments}
+\addcontentsline{toc}{chapter}{Acknowledgments}
+$acknowledgments$
+$endif$
+
+$if(afterword)$
+\chapter*{Afterword}
+\addcontentsline{toc}{chapter}{Afterword}
+$afterword$
+$endif$
+
+$if(timeline)$
+\chapter*{Timeline}
+\addcontentsline{toc}{chapter}{Timeline}
+$timeline$
+$endif$
+
+$if(about-author)$
+\chapter*{About the Author}
+\addcontentsline{toc}{chapter}{About the Author}
+$about-author$
+$endif$
+
+$if(colophon)$
+\cleardoublepage
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+\small\itshape
+$colophon$
+\end{center}
+$endif$
+
+\end{document}

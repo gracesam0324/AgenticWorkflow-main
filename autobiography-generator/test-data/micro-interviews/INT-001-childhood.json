@@ -1,0 +1,124 @@
+{
+  "meta": {
+    "session_id": "INT-001",
+    "subject_name": "Park Jimin",
+    "interviewer": "ai-guided",
+    "date": "2026-03-10",
+    "duration_minutes": 45,
+    "life_period": {
+      "label": "Childhood in Busan",
+      "start_year": 1990,
+      "end_year": 2002
+    },
+    "themes": ["family", "education", "early-interests"],
+    "emotional_tone": "reflective"
+  },
+  "segments": [
+    {
+      "segment_id": "SEG-001",
+      "topic": "Family home and neighborhood",
+      "content": "We lived in a small apartment in Haeundae, you know, before it became all fancy with the high-rises. My father was a fisherman — well, he ran a small fishing supply shop, but he always said he was a fisherman at heart. My mother taught piano at the local community center. Every morning I woke up to the sound of her practicing Chopin. The apartment smelled like salt air and sesame oil. I shared a room with my older brother Jihoon, and we had this rule — his side was Korea, my side was Japan, and the middle was the DMZ. Nobody crossed the DMZ without permission.",
+      "key_quotes": [
+        {
+          "text": "My father was a fisherman — well, he ran a small fishing supply shop, but he always said he was a fisherman at heart.",
+          "context": "Describing father's identity and self-image",
+          "usable_in_chapter": true
+        },
+        {
+          "text": "His side was Korea, my side was Japan, and the middle was the DMZ. Nobody crossed the DMZ without permission.",
+          "context": "Childhood game with brother about room territory",
+          "usable_in_chapter": true
+        }
+      ],
+      "people_mentioned": [
+        {"name": "Park Jihoon", "relationship": "older brother"},
+        {"name": "Father (Park Sangwoo)", "relationship": "father"},
+        {"name": "Mother (Lee Eunji)", "relationship": "mother"}
+      ],
+      "places_mentioned": [
+        {"name": "Haeundae apartment", "city": "Busan", "country": "South Korea", "years_relevant": [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002]}
+      ],
+      "events": [
+        {
+          "description": "Family moved into Haeundae apartment",
+          "date_approximate": "1990",
+          "significance": "background"
+        }
+      ],
+      "emotional_markers": [
+        {"emotion": "nostalgia", "trigger": "describing childhood apartment", "intensity": 6},
+        {"emotion": "warmth", "trigger": "mother's piano practice", "intensity": 7}
+      ]
+    },
+    {
+      "segment_id": "SEG-002",
+      "topic": "School experiences and friendships",
+      "content": "I was terrible at math. I mean genuinely terrible. My teacher, Mrs. Kim — she was ancient, probably 60 but seemed 100 to me — she once held up my test paper and said 'Park Jimin, even my cat could score higher.' The whole class laughed. I wanted to disappear. But you know what saved me? The school library. I discovered science fiction books there. I read everything — Korean translations of Asimov, Clarke, and later Korean sci-fi authors. My best friend Taehyung and I would spend lunch breaks in the library making up our own stories about space travel. We filled three notebooks with our space adventures. I still have them somewhere.",
+      "key_quotes": [
+        {
+          "text": "Park Jimin, even my cat could score higher.",
+          "context": "Math teacher publicly humiliating him",
+          "usable_in_chapter": true
+        },
+        {
+          "text": "We filled three notebooks with our space adventures. I still have them somewhere.",
+          "context": "Creative friendship with Taehyung",
+          "usable_in_chapter": true
+        }
+      ],
+      "people_mentioned": [
+        {"name": "Mrs. Kim", "relationship": "math teacher"},
+        {"name": "Kim Taehyung", "relationship": "best friend"}
+      ],
+      "places_mentioned": [
+        {"name": "Elementary school library", "city": "Busan", "country": "South Korea", "years_relevant": [1997, 1998, 1999]}
+      ],
+      "events": [
+        {
+          "description": "Discovery of science fiction in school library",
+          "date_approximate": "1997",
+          "significance": "turning-point"
+        }
+      ],
+      "emotional_markers": [
+        {"emotion": "shame", "trigger": "math test humiliation", "intensity": 8},
+        {"emotion": "joy", "trigger": "discovering sci-fi books", "intensity": 9}
+      ]
+    },
+    {
+      "segment_id": "SEG-003",
+      "topic": "Father's shop and life lessons",
+      "content": "After school I would go to my father's shop. It was this tiny place near the harbor, crammed with fishing lines and hooks and nets. The regulars were all old fishermen with these incredible weathered faces. My father would let me sit behind the counter and do homework while he served customers. The thing is, I learned more there than in any classroom. Those fishermen told stories — about storms, about the sea, about the Japanese occupation, about losing friends to the ocean. My father always said the same thing: 'Listen first, talk later.' I think that's why I became a writer. I learned to listen before I could even read properly.",
+      "key_quotes": [
+        {
+          "text": "Listen first, talk later.",
+          "context": "Father's core life philosophy",
+          "usable_in_chapter": true
+        },
+        {
+          "text": "I think that's why I became a writer. I learned to listen before I could even read properly.",
+          "context": "Subject connecting childhood experience to career",
+          "usable_in_chapter": true
+        }
+      ],
+      "people_mentioned": [
+        {"name": "Father (Park Sangwoo)", "relationship": "father"}
+      ],
+      "places_mentioned": [
+        {"name": "Father's fishing supply shop", "city": "Busan", "country": "South Korea", "years_relevant": [1996, 1997, 1998, 1999, 2000, 2001, 2002]}
+      ],
+      "events": [
+        {
+          "description": "Regularly spending afternoons at father's shop after school",
+          "date_approximate": "1996-2002",
+          "significance": "milestone"
+        }
+      ],
+      "emotional_markers": [
+        {"emotion": "admiration", "trigger": "father's wisdom", "intensity": 8},
+        {"emotion": "wonder", "trigger": "fishermen's stories", "intensity": 7}
+      ]
+    }
+  ],
+  "cross_references": []
+}

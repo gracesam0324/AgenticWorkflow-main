@@ -1,0 +1,36 @@
+# ============================================================================
+# state.yaml — Single Source of Truth for autobiography generation pipeline
+# Only the Orchestrator writes to this file.
+# ============================================================================
+meta:
+  subject_name: ""
+  project_start_date: ""
+  target_word_count: 50000
+  target_chapters: 12
+  current_phase: "interview-collection"  # interview-collection | structuring | drafting | revision | final
+
+interviews:
+  total_collected: 0
+  sessions: []
+  # Each entry: { session_id: "INT-001", file: "test-data/...", status: "raw|processed", themes: [] }
+
+structure:
+  outline_version: 0
+  chapters: []
+  # Each entry: { number: 1, title: "", life_period: "", source_sessions: [], status: "planned|drafted|revised|final" }
+
+drafts:
+  current_round: 0
+  chapters_drafted: 0
+  chapters_revised: 0
+
+quality:
+  voice_consistency_score: null    # 0.0-1.0 from eval
+  factual_accuracy_score: null     # 0.0-1.0 from check.py
+  readability_avg: null            # Flesch-Kincaid grade level
+  last_eval_date: null
+
+pipeline:
+  last_agent_run: null
+  last_agent_name: null
+  errors: []

@@ -1,0 +1,603 @@
+/* epub.css — Stylesheet for EPUB3 autobiography output
+ *
+ * Design principles:
+ * 1. Use relative units (em, %) — ereaders override fixed sizes
+ * 2. Fallback font stacks — ereader font availability varies
+ * 3. Minimal overrides — let the reader's preferences take precedence
+ * 4. Scene breaks survive dark mode and font changes
+ * 5. Korean text support for bilingual content
+ */
+
+/* ============================================================
+   CSS RESET / NORMALIZE FOR EREADERS
+   ============================================================ */
+
+html, body, div, span, h1, h2, h3, h4, h5, h6,
+p, blockquote, pre, a, em, strong, sub, sup,
+ol, ul, li, figure, figcaption, footer, header, nav, section {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* ============================================================
+   BODY
+   ============================================================ */
+
+body {
+  font-family: "EB Garamond", "Georgia", "Palatino Linotype", "Book Antiqua", "Palatino", serif;
+  font-size: 1em;
+  line-height: 1.6;
+  margin: 1em;
+  color: #1a1a1a;
+  background-color: #ffffff;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  orphans: 2;
+  widows: 2;
+}
+
+/* ============================================================
+   HEADINGS (Chapter Titles)
+   ============================================================ */
+
+h1 {
+  font-size: 1.8em;
+  font-weight: normal;
+  font-style: italic;
+  text-align: center;
+  margin-top: 3em;
+  margin-bottom: 1.5em;
+  page-break-before: always;
+  page-break-after: avoid;
+  line-height: 1.2;
+}
+
+/* Chapter number appears above the title */
+h1 .chapter-number {
+  display: block;
+  font-size: 0.55em;
+  font-variant: small-caps;
+  font-style: normal;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.5em;
+  color: #555;
+}
+
+h2 {
+  font-size: 1.3em;
+  font-weight: bold;
+  font-style: normal;
+  margin-top: 1.8em;
+  margin-bottom: 0.6em;
+  page-break-after: avoid;
+}
+
+h3 {
+  font-size: 1.05em;
+  font-weight: bold;
+  font-style: italic;
+  margin-top: 1.2em;
+  margin-bottom: 0.4em;
+  page-break-after: avoid;
+}
+
+h4, h5, h6 {
+  font-size: 1em;
+  font-weight: bold;
+  margin-top: 1em;
+  margin-bottom: 0.3em;
+}
+
+/* ============================================================
+   PARAGRAPHS
+   ============================================================ */
+
+p {
+  text-indent: 1.5em;
+  margin-top: 0;
+  margin-bottom: 0;
+  text-align: justify;
+}
+
+/* No indent after headings, breaks, blockquotes, figures */
+h1 + p,
+h2 + p,
+h3 + p,
+h4 + p,
+hr + p,
+blockquote + p,
+figure + p,
+.scene-break + p,
+.epigraph + p {
+  text-indent: 0;
+}
+
+/* Drop cap approximation for first paragraph of chapter */
+h1 + p::first-letter {
+  font-size: 3.2em;
+  float: left;
+  line-height: 0.8;
+  padding-right: 0.08em;
+  padding-top: 0.05em;
+  font-style: normal;
+  font-weight: bold;
+  color: #333;
+}
+
+/* ============================================================
+   BLOCK QUOTES (for letters, internal monologue, memories)
+   ============================================================ */
+
+blockquote {
+  font-style: italic;
+  margin: 1.5em 2em;
+  padding-left: 0.8em;
+  border-left: 2px solid #999;
+}
+
+blockquote p {
+  text-indent: 0;
+  margin-bottom: 0.5em;
+}
+
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Nested quotes (quote within a quote) */
+blockquote blockquote {
+  border-left: 1px solid #bbb;
+  margin-left: 1em;
+  font-style: normal;
+}
+
+/* ============================================================
+   SCENE BREAKS
+   ============================================================ */
+
+/* Standard horizontal rule scene break */
+hr {
+  border: none;
+  text-align: center;
+  margin: 2em auto;
+  overflow: visible;
+  height: 1em;
+}
+
+hr::after {
+  content: "\2022\2003\2022\2003\2022";
+  color: #666;
+  font-size: 0.9em;
+  letter-spacing: 0.3em;
+}
+
+/* Styled scene break div (from Lua filter) */
+.scene-break {
+  text-align: center;
+  margin: 2em 0;
+  color: #666;
+  font-size: 0.9em;
+  letter-spacing: 0.3em;
+}
+
+/* ============================================================
+   EPIGRAPH
+   ============================================================ */
+
+.epigraph {
+  margin: 2em 3em;
+  page-break-after: avoid;
+}
+
+.epigraph p {
+  text-indent: 0;
+  text-align: center;
+  font-style: italic;
+  font-size: 0.95em;
+  line-height: 1.5;
+}
+
+.epigraph .attribution,
+.epigraph cite {
+  display: block;
+  text-align: right;
+  font-size: 0.85em;
+  font-style: normal;
+  margin-top: 0.5em;
+  color: #555;
+}
+
+/* Book-level epigraph page */
+.epigraph-page {
+  text-align: center;
+  font-style: italic;
+  margin: 4em 3em;
+  page-break-after: always;
+}
+
+.epigraph-page .attribution {
+  text-align: right;
+  font-size: 0.9em;
+  margin-top: 0.5em;
+  font-style: normal;
+}
+
+/* ============================================================
+   DIALOGUE
+   ============================================================ */
+
+.dialogue {
+  text-indent: 0;
+}
+
+/* ============================================================
+   EMPHASIS AND INLINE STYLES
+   ============================================================ */
+
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: bold;
+}
+
+small {
+  font-size: 0.85em;
+}
+
+/* Small caps (for names, places when first introduced) */
+.smallcaps {
+  font-variant: small-caps;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   TITLE PAGE
+   ============================================================ */
+
+.title-page {
+  text-align: center;
+  page-break-after: always;
+}
+
+.title-page h1 {
+  font-size: 2.5em;
+  margin-top: 4em;
+  page-break-before: avoid;
+  font-weight: bold;
+  font-style: normal;
+}
+
+.title-page .subtitle {
+  font-size: 1.3em;
+  font-style: italic;
+  margin-top: 0.5em;
+}
+
+.title-page .author {
+  font-size: 1.2em;
+  margin-top: 2em;
+}
+
+.title-page .publisher {
+  font-size: 0.9em;
+  margin-top: 3em;
+}
+
+/* ============================================================
+   DEDICATION
+   ============================================================ */
+
+.dedication {
+  text-align: center;
+  font-style: italic;
+  margin-top: 6em;
+  page-break-after: always;
+}
+
+.dedication p {
+  text-indent: 0;
+  text-align: center;
+}
+
+/* ============================================================
+   TABLE OF CONTENTS
+   ============================================================ */
+
+nav#toc {
+  page-break-before: always;
+}
+
+nav#toc h2 {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+nav#toc ol {
+  list-style: none;
+  padding-left: 0;
+}
+
+nav#toc li {
+  margin: 0.4em 0;
+}
+
+nav#toc a {
+  text-decoration: none;
+  color: #1a1a1a;
+}
+
+/* ============================================================
+   IMAGES / PHOTOS
+   ============================================================ */
+
+figure {
+  text-align: center;
+  margin: 2em auto;
+  page-break-inside: avoid;
+  max-width: 100%;
+}
+
+figure img {
+  max-width: 100%;
+  height: auto;
+}
+
+figcaption {
+  font-size: 0.85em;
+  font-style: italic;
+  color: #555;
+  margin-top: 0.5em;
+  text-align: center;
+  text-indent: 0;
+}
+
+/* Full-page photo */
+.photo-page {
+  text-align: center;
+  page-break-before: always;
+  page-break-after: always;
+  padding-top: 2em;
+}
+
+.photo-page img {
+  max-width: 90%;
+  max-height: 85vh;
+}
+
+.photo-page .caption {
+  font-size: 0.85em;
+  font-style: italic;
+  color: #555;
+  margin-top: 1em;
+}
+
+/* Photo section (gallery between chapters) */
+.photo-section {
+  page-break-before: always;
+}
+
+.photo-section h2 {
+  text-align: center;
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+}
+
+/* ============================================================
+   FOOTNOTES AND ENDNOTES
+   ============================================================ */
+
+.footnote {
+  font-size: 0.85em;
+}
+
+.footnote-ref {
+  font-size: 0.75em;
+  vertical-align: super;
+  text-decoration: none;
+}
+
+/* Pandoc footnote section */
+section.footnotes {
+  margin-top: 2em;
+  border-top: 1px solid #ccc;
+  padding-top: 1em;
+  font-size: 0.9em;
+}
+
+section.footnotes p {
+  text-indent: 0;
+}
+
+section.footnotes ol {
+  padding-left: 1.5em;
+}
+
+/* ============================================================
+   BACK MATTER
+   ============================================================ */
+
+.backmatter h1 {
+  font-size: 1.5em;
+}
+
+/* Timeline / Chronology */
+.timeline {
+  margin: 1em 0;
+}
+
+.timeline dt {
+  font-weight: bold;
+  margin-top: 0.5em;
+}
+
+.timeline dd {
+  margin-left: 1.5em;
+  margin-bottom: 0.3em;
+}
+
+/* About the Author */
+.about-author {
+  page-break-before: always;
+}
+
+.about-author img {
+  max-width: 50%;
+  display: block;
+  margin: 1em auto;
+}
+
+/* ============================================================
+   KOREAN TEXT SUPPORT
+   ============================================================ */
+
+/* Korean paragraphs: slightly different line height for readability */
+:lang(ko) {
+  line-height: 1.8;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+:lang(ko) p {
+  text-indent: 1em;
+}
+
+/* Korean font stack */
+:lang(ko) body,
+[lang="ko"] {
+  font-family: "Noto Serif CJK KR", "NanumMyeongjo", "Batang", serif;
+}
+
+/* ============================================================
+   LISTS
+   ============================================================ */
+
+ul, ol {
+  margin: 0.5em 0;
+  padding-left: 2em;
+}
+
+li {
+  margin-bottom: 0.2em;
+}
+
+li p {
+  text-indent: 0;
+}
+
+/* ============================================================
+   TABLES
+   ============================================================ */
+
+table {
+  border-collapse: collapse;
+  margin: 1em auto;
+  font-size: 0.9em;
+  width: auto;
+  max-width: 100%;
+}
+
+th, td {
+  padding: 0.3em 0.8em;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  font-weight: bold;
+  border-bottom: 2px solid #999;
+}
+
+caption {
+  font-style: italic;
+  font-size: 0.9em;
+  margin-bottom: 0.5em;
+}
+
+/* ============================================================
+   CODE (for technical memoir / mixed content)
+   ============================================================ */
+
+code {
+  font-family: "Courier New", "Courier", monospace;
+  font-size: 0.9em;
+  background-color: #f4f4f4;
+  padding: 0.1em 0.3em;
+}
+
+pre {
+  font-family: "Courier New", "Courier", monospace;
+  font-size: 0.85em;
+  background-color: #f4f4f4;
+  padding: 0.8em;
+  margin: 1em 0;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+/* ============================================================
+   PRINT MEDIA QUERY (for PDF fallback via wkhtmltopdf/weasyprint)
+   ============================================================ */
+
+@media print {
+  body {
+    font-size: 11pt;
+    margin: 0;
+  }
+
+  h1 {
+    page-break-before: always;
+  }
+
+  figure {
+    page-break-inside: avoid;
+  }
+
+  a {
+    color: #1a1a1a;
+    text-decoration: none;
+  }
+}
+
+/* ============================================================
+   DARK MODE SUPPORT (for ereaders with night mode)
+   ============================================================ */
+
+@media (prefers-color-scheme: dark) {
+  body {
+    color: #e0e0e0;
+    background-color: #1a1a1a;
+  }
+
+  h1 .chapter-number {
+    color: #aaa;
+  }
+
+  blockquote {
+    border-left-color: #555;
+  }
+
+  hr::after,
+  .scene-break {
+    color: #999;
+  }
+
+  figcaption,
+  .epigraph .attribution {
+    color: #aaa;
+  }
+
+  code, pre {
+    background-color: #2a2a2a;
+  }
+}

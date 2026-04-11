@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "session_id": "INT-002",
+    "subject_name": "Park Jimin",
+    "interviewer": "ai-guided",
+    "date": "2026-03-11",
+    "duration_minutes": 50,
+    "life_period": {
+      "label": "University years in Seoul",
+      "start_year": 2008,
+      "end_year": 2012
+    },
+    "themes": ["education", "independence", "career-discovery"],
+    "emotional_tone": "bittersweet"
+  },
+  "segments": [
+    {
+      "segment_id": "SEG-001",
+      "topic": "Arriving in Seoul",
+      "content": "Seoul hit me like a wall. I came from Busan where everything moves at ocean speed — slow, rhythmic. Seoul was a machine. I remember standing in Gangnam station for the first time, people rushing past me in every direction, and thinking I had made a terrible mistake. My dorm room at Yonsei was smaller than the DMZ between my brother's side and mine. But I had a window that looked out at the mountains, and every morning those mountains reminded me that nature doesn't care about your anxiety.",
+      "key_quotes": [
+        {
+          "text": "Seoul hit me like a wall.",
+          "context": "First impression of moving to Seoul from Busan",
+          "usable_in_chapter": true
+        },
+        {
+          "text": "Nature doesn't care about your anxiety.",
+          "context": "Finding comfort in mountain view from dorm",
+          "usable_in_chapter": true
+        }
+      ],
+      "people_mentioned": [
+        {"name": "Park Jihoon", "relationship": "older brother", "first_appearance_session": "INT-001"}
+      ],
+      "places_mentioned": [
+        {"name": "Gangnam station", "city": "Seoul", "country": "South Korea", "years_relevant": [2008]},
+        {"name": "Yonsei University dorm", "city": "Seoul", "country": "South Korea", "years_relevant": [2008, 2009]}
+      ],
+      "events": [
+        {
+          "description": "Moved to Seoul for university",
+          "date_approximate": "2008-03",
+          "significance": "turning-point"
+        }
+      ],
+      "emotional_markers": [
+        {"emotion": "overwhelm", "trigger": "arriving in Seoul", "intensity": 8},
+        {"emotion": "comfort", "trigger": "mountain view from dorm", "intensity": 5}
+      ]
+    },
+    {
+      "segment_id": "SEG-002",
+      "topic": "Discovering creative writing",
+      "content": "I was supposed to study business. My father had this whole plan — I would get a business degree, come back to Busan, and eventually take over the shop. Expand it, modernize it, make it a chain. He never said it out loud, but I could see the blueprint in his eyes every time we video-called. Then in my second semester I took a creative writing elective. Professor Choi — she was this fierce woman who had published six novels and smoked on the rooftop between classes — she read my first short story aloud to the class. Not to embarrass me like Mrs. Kim. She read it because she said it was the most honest piece of writing she had seen from a student in years. That moment changed everything. I changed my major the next week. I didn't tell my father for three months.",
+      "key_quotes": [
+        {
+          "text": "She read it because she said it was the most honest piece of writing she had seen from a student in years.",
+          "context": "Professor Choi recognizing his writing talent",
+          "usable_in_chapter": true
+        },
+        {
+          "text": "I changed my major the next week. I didn't tell my father for three months.",
+          "context": "Pivotal career decision and family tension",
+          "usable_in_chapter": true
+        }
+      ],
+      "people_mentioned": [
+        {"name": "Professor Choi", "relationship": "creative writing professor"},
+        {"name": "Father (Park Sangwoo)", "relationship": "father", "first_appearance_session": "INT-001"},
+        {"name": "Mrs. Kim", "relationship": "math teacher", "first_appearance_session": "INT-001"}
+      ],
+      "places_mentioned": [
+        {"name": "Yonsei University", "city": "Seoul", "country": "South Korea", "years_relevant": [2008, 2009, 2010, 2011, 2012]}
+      ],
+      "events": [
+        {
+          "description": "Changed major from business to creative writing",
+          "date_approximate": "2008-10",
+          "significance": "turning-point"
+        },
+        {
+          "description": "Professor Choi reads his story to the class",
+          "date_approximate": "2008-09",
+          "significance": "turning-point"
+        }
+      ],
+      "emotional_markers": [
+        {"emotion": "guilt", "trigger": "hiding major change from father", "intensity": 7},
+        {"emotion": "validation", "trigger": "professor praising his writing", "intensity": 9}
+      ]
+    }
+  ],
+  "cross_references": [
+    {
+      "from_segment": "SEG-002",
+      "to_session": "INT-001",
+      "to_segment": "SEG-002",
+      "relationship": "contextualizes",
+      "note": "Mrs. Kim's humiliation contrasted with Professor Choi's encouragement — both read his work aloud but with opposite intentions"
+    }
+  ]
+}

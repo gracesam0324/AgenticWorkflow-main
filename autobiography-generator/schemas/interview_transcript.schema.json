@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "interview_transcript.schema.json",
+  "title": "Interview Transcript",
+  "description": "Schema for structured interview transcripts used as source material for autobiography generation. Each transcript captures one interview session with thematic segments.",
+  "type": "object",
+  "required": ["meta", "segments"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["session_id", "subject_name", "interviewer", "date", "duration_minutes", "life_period"],
+      "properties": {
+        "session_id": {
+          "type": "string",
+          "pattern": "^INT-[0-9]{3}$",
+          "description": "Unique session identifier, e.g. INT-001"
+        },
+        "subject_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "interviewer": {
+          "type": "string",
+          "enum": ["human", "ai-guided"],
+          "description": "Whether the interview was conducted by a human or AI-guided prompts"
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "duration_minutes": {
+          "type": "integer",
+          "minimum": 5,
+          "maximum": 480
+        },
+        "life_period": {
+          "type": "object",
+          "required": ["label", "start_year"],
+          "properties": {
+            "label": {
+              "type": "string",
+              "description": "Human-readable period label, e.g. 'Childhood in Seoul'"
+            },
+            "start_year": { "type": "integer", "minimum": 1900, "maximum": 2100 },
+            "end_year": { "type": "integer", "minimum": 1900, "maximum": 2100 }
+          }
+        },
+        "themes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1,
+          "description": "Primary themes covered, e.g. ['family', 'education', 'career-transition']"
+        },
+        "emotional_tone": {
+          "type": "string",
+          "enum": ["reflective", "joyful", "melancholic", "neutral", "intense", "humorous", "bittersweet"],
+          "description": "Dominant emotional tone of the session"
+        }
+      }
+    },
+    "segments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["segment_id", "topic", "content"],
+        "properties": {
+          "segment_id": {
+            "type": "string",
+            "pattern": "^SEG-[0-9]{3}$"
+          },
+          "topic": {
+            "type": "string",
+            "minLength": 3,
+            "description": "Brief topic label for this segment"
+          },
+          "content": {
+            "type": "string",
+            "minLength": 50,
+            "description": "Full transcript text of this segment"
+          },
+          "key_quotes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["text", "context"],
+              "properties": {
+                "text": { "type": "string", "minLength": 10 },
+                "context": { "type": "string" },
+                "usable_in_chapter": { "type": "boolean", "default": true }
+              }
+            },
+            "description": "Notable direct quotes worth preserving in the narrative"
+          },
+          "people_mentioned": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "relationship"],
+              "properties": {
+                "name": { "type": "string" },
+                "relationship": { "type": "string" },
+                "first_appearance_session": { "type": "string", "pattern": "^INT-[0-9]{3}$" }
+              }
+            }
+          },
+          "places_mentioned": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name"],
+              "properties": {
+                "name": { "type": "string" },
+                "city": { "type": "string" },
+                "country": { "type": "string" },
+                "years_relevant": {
+                  "type": "array",
+                  "items": { "type": "integer" }
+                }
+              }
+            }
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["description"],
+              "properties": {
+                "description": { "type": "string" },
+                "date_approximate": { "type": "string" },
+                "significance": {
+                  "type": "string",
+                  "enum": ["turning-point", "milestone", "background", "anecdote"]
+                }
+              }
+            }
+          },
+          "emotional_markers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["emotion", "trigger"],
+              "properties": {
+                "emotion": { "type": "string" },
+                "trigger": { "type": "string" },
+                "intensity": { "type": "integer", "minimum": 1, "maximum": 10 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "cross_references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["from_segment", "to_session", "to_segment", "relationship"],
+        "properties": {
+          "from_segment": { "type": "string", "pattern": "^SEG-[0-9]{3}$" },
+          "to_session": { "type": "string", "pattern": "^INT-[0-9]{3}$" },
+          "to_segment": { "type": "string", "pattern": "^SEG-[0-9]{3}$" },
+          "relationship": {
+            "type": "string",
+            "enum": ["contradicts", "elaborates", "confirms", "contextualizes"]
+          },
+          "note": { "type": "string" }
+        }
+      },
+      "description": "Links between segments across sessions for consistency checking"
+    }
+  }
+}

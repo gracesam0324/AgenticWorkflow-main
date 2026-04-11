@@ -1,0 +1,217 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "review_verdict.schema.json",
+  "title": "Review Verdict",
+  "description": "Schema for adversarial review results. Produced by @reviewer and @consistency-checker agents. Drives the revision cycle: FAIL triggers rewrite, PASS advances pipeline.",
+  "type": "object",
+  "required": ["meta", "pre_mortem", "issues", "pacs", "verdict"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["review_id", "reviewer_agent", "artifact_path", "artifact_type", "review_date"],
+      "properties": {
+        "review_id": {
+          "type": "string",
+          "pattern": "^RV-[0-9]{3}$",
+          "description": "Unique review identifier"
+        },
+        "reviewer_agent": {
+          "type": "string",
+          "description": "Agent that performed the review"
+        },
+        "artifact_path": { "type": "string" },
+        "artifact_type": {
+          "type": "string",
+          "enum": ["chapter-draft", "story-bible", "interview-transcript", "consistency-report", "full-manuscript"]
+        },
+        "review_date": { "type": "string", "format": "date" },
+        "review_round": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Which review round (1 = first review, 2 = post-revision re-review)"
+        },
+        "generator_pacs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "The generator agent's self-assessed pACS score"
+        }
+      }
+    },
+    "pre_mortem": {
+      "type": "object",
+      "required": ["likely_critical_flaw", "likely_factual_error", "likely_logical_weakness"],
+      "properties": {
+        "likely_critical_flaw": {
+          "type": "string",
+          "minLength": 20,
+          "description": "Hypothesized most likely critical flaw before detailed analysis"
+        },
+        "likely_factual_error": {
+          "type": "string",
+          "minLength": 20
+        },
+        "likely_logical_weakness": {
+          "type": "string",
+          "minLength": 20
+        }
+      },
+      "description": "Mandatory pre-mortem exercise per reviewer protocol"
+    },
+    "issues": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["issue_id", "severity", "location", "problem", "suggested_fix"],
+        "properties": {
+          "issue_id": {
+            "type": "string",
+            "pattern": "^ISS-[0-9]{3}$"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["critical", "warning", "suggestion"]
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "factual-error",
+              "timeline-inconsistency",
+              "character-inconsistency",
+              "voice-deviation",
+              "structural-gap",
+              "missing-source",
+              "logical-flaw",
+              "pacing-issue",
+              "continuity-break",
+              "style-issue",
+              "other"
+            ]
+          },
+          "location": {
+            "type": "string",
+            "description": "File path, section ID, or line reference"
+          },
+          "problem": {
+            "type": "string",
+            "minLength": 20,
+            "description": "Specific description of the issue"
+          },
+          "suggested_fix": {
+            "type": "string",
+            "minLength": 10,
+            "description": "Actionable fix recommendation"
+          },
+          "story_bible_reference": {
+            "type": "string",
+            "description": "If this issue contradicts the story bible, cite the specific entry"
+          },
+          "interview_reference": {
+            "type": "string",
+            "description": "If this issue contradicts interview data, cite the session/segment"
+          }
+        }
+      },
+      "description": "At least 1 issue required per reviewer protocol (anti-rubber-stamp)"
+    },
+    "pacs": {
+      "type": "object",
+      "required": ["fidelity", "completeness", "logical_coherence", "reviewer_score"],
+      "properties": {
+        "fidelity": {
+          "type": "object",
+          "required": ["score", "rationale"],
+          "properties": {
+            "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+            "rationale": { "type": "string", "minLength": 30 }
+          }
+        },
+        "completeness": {
+          "type": "object",
+          "required": ["score", "rationale"],
+          "properties": {
+            "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+            "rationale": { "type": "string", "minLength": 30 }
+          }
+        },
+        "logical_coherence": {
+          "type": "object",
+          "required": ["score", "rationale"],
+          "properties": {
+            "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+            "rationale": { "type": "string", "minLength": 30 }
+          }
+        },
+        "reviewer_score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "min(fidelity.score, completeness.score, logical_coherence.score)"
+        },
+        "generator_delta": {
+          "type": "integer",
+          "description": "abs(reviewer_score - generator_pacs) — divergence > 15 triggers reconciliation"
+        }
+      }
+    },
+    "domain_specific": {
+      "type": "object",
+      "description": "Autobiography-specific review dimensions",
+      "properties": {
+        "voice_consistency": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+            "deviations_found": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "emotional_authenticity": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+            "notes": { "type": "string" }
+          }
+        },
+        "source_fidelity": {
+          "type": "object",
+          "properties": {
+            "claims_checked": { "type": "integer" },
+            "claims_verified": { "type": "integer" },
+            "claims_unverifiable": { "type": "integer" },
+            "claims_contradicted": { "type": "integer" }
+          }
+        }
+      }
+    },
+    "verdict": {
+      "type": "object",
+      "required": ["result", "justification"],
+      "properties": {
+        "result": {
+          "type": "string",
+          "enum": ["PASS", "FAIL"],
+          "description": "FAIL if any critical issue exists; PASS otherwise"
+        },
+        "justification": {
+          "type": "string",
+          "minLength": 30,
+          "description": "1-3 sentence summary of verdict reasoning"
+        },
+        "critical_issues_blocking": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^ISS-[0-9]{3}$" },
+          "description": "Issue IDs that caused FAIL verdict"
+        },
+        "recommended_action": {
+          "type": "string",
+          "enum": ["revise-and-resubmit", "minor-polish", "accept", "major-rewrite"],
+          "description": "Recommended next step for the generator"
+        }
+      }
+    }
+  }
+}

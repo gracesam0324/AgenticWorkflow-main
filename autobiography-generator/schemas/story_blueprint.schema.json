@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "story_blueprint.schema.json",
+  "title": "Story Blueprint",
+  "description": "Step 4 output — User co-created narrative blueprint. Contains structure type, kickpoints, core message, emphasis/exclusion areas, and emotional arc. This is INPUT to @story-architect (Step 5) and constrains all downstream story bible construction.",
+  "type": "object",
+  "required": ["meta", "structure_type", "kickpoints", "core_message", "emotional_arc", "chapter_outline"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["subject_name", "created_date", "version"],
+      "properties": {
+        "subject_name": { "type": "string", "minLength": 1 },
+        "created_date": { "type": "string", "format": "date" },
+        "version": { "type": "integer", "minimum": 1 },
+        "target_audience": { "type": "string", "minLength": 10 },
+        "target_word_count": { "type": "integer", "minimum": 10000, "maximum": 500000 },
+        "target_chapters": { "type": "integer", "minimum": 3, "maximum": 50 }
+      }
+    },
+    "structure_type": {
+      "type": "string",
+      "enum": ["chronological", "thematic", "kickpoint-driven", "hybrid"],
+      "description": "User-selected narrative structure"
+    },
+    "kickpoints": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 10,
+      "description": "Major life turning points that anchor the narrative",
+      "items": {
+        "type": "object",
+        "required": ["title", "life_period", "emotional_weight", "user_priority"],
+        "properties": {
+          "title": { "type": "string", "minLength": 3 },
+          "life_period": { "type": "string", "minLength": 3 },
+          "description": { "type": "string", "minLength": 20 },
+          "emotional_weight": { "type": "integer", "minimum": 1, "maximum": 10 },
+          "user_priority": { "type": "integer", "minimum": 1, "maximum": 5 },
+          "chapter_placement": { "type": "integer", "minimum": 1 },
+          "source_interviews": {
+            "type": "array",
+            "items": { "type": "string", "pattern": "^INT-[0-9]{3}$" }
+          }
+        }
+      }
+    },
+    "core_message": {
+      "type": "string",
+      "minLength": 30,
+      "description": "The single most important message the subject wants readers to take away"
+    },
+    "controlling_metaphor": {
+      "type": "object",
+      "description": "Central metaphor that threads through the entire narrative",
+      "properties": {
+        "metaphor": { "type": "string", "minLength": 5 },
+        "user_approved": { "type": "boolean" },
+        "interview_mention_count": {
+          "type": "integer",
+          "minimum": 2,
+          "description": "Python-verified count of unprompted mentions in interviews"
+        }
+      }
+    },
+    "emphasis_areas": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Topics/themes the subject wants to highlight"
+    },
+    "exclusion_areas": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Topics/themes the subject wants to avoid or minimize"
+    },
+    "emotional_arc": {
+      "type": "object",
+      "required": ["opening_mood", "climax_moment", "resolution_tone"],
+      "properties": {
+        "opening_mood": { "type": "string", "minLength": 10 },
+        "climax_moment": { "type": "string", "minLength": 10 },
+        "resolution_tone": { "type": "string", "minLength": 10 },
+        "han_heung_jeong_cycle": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "chapter_range": { "type": "string" },
+              "dominant_emotion": { "type": "string", "enum": ["han", "heung", "jeong", "mixed"] }
+            }
+          }
+        }
+      }
+    },
+    "chapter_outline": {
+      "type": "array",
+      "minItems": 3,
+      "description": "Preliminary chapter structure — will be refined by @story-architect",
+      "items": {
+        "type": "object",
+        "required": ["chapter_number", "working_title", "life_period", "key_focus"],
+        "properties": {
+          "chapter_number": { "type": "integer", "minimum": 1 },
+          "working_title": { "type": "string", "minLength": 3 },
+          "life_period": { "type": "string" },
+          "key_focus": { "type": "string", "minLength": 10 },
+          "estimated_word_count": { "type": "integer", "minimum": 1000 },
+          "kickpoint_refs": {
+            "type": "array",
+            "items": { "type": "integer" },
+            "description": "Indices into kickpoints array"
+          },
+          "source_interviews": {
+            "type": "array",
+            "items": { "type": "string", "pattern": "^INT-[0-9]{3}$" }
+          }
+        }
+      }
+    },
+    "narrative_preferences": {
+      "type": "object",
+      "description": "User-stated preferences about narrative voice and tone",
+      "properties": {
+        "narrative_voice": {
+          "type": "string",
+          "enum": ["first-person-past", "first-person-present", "third-person-limited", "third-person-omniscient"]
+        },
+        "desired_tone": {
+          "type": "string",
+          "description": "e.g., reflective, energetic, candid, poetic, matter-of-fact"
+        },
+        "sentence_length_preference": {
+          "type": "string",
+          "enum": ["short", "medium", "long", "varied"]
+        },
+        "dialogue_frequency": {
+          "type": "string",
+          "enum": ["sparse", "moderate", "frequent"]
+        },
+        "emotional_openness": {
+          "type": "string",
+          "enum": ["reserved", "moderate", "expressive"]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+# Church Retreat App Domain Glossary
+# Used by @app-translator for consistent English→Korean translation
+# Format: english_term: korean_term
+
+terms:
+  # App Types
+  Bible Quiz App: 성경 퀴즈 앱
+  Team Scoreboard: 팀 점수판
+  Schedule App: 일정표 앱
+  Praise Lyrics App: 찬양 가사 앱
+  Stamp Rally: 스탬프 랠리
+  QT Guide: QT 가이드
+  Prayer Request: 기도제목
+  Photo Gallery: 포토 갤러리
+  Combined App: 종합 앱
+
+  # Features
+  Buzzer: 버저
+  Real-time Sync: 실시간 동기화
+  Admin Console: 관리자 콘솔
+  Projector Screen: 빔 프로젝터 화면
+  QR Code: QR 코드
+  Offline Mode: 오프라인 모드
+  Dark Mode: 다크 모드
+
+  # Retreat Terms
+  Church Retreat: 수련회
+  Youth Group: 청소년부
+  Team: 조/팀
+  Mission: 미션
+  Bible Passage: 성경 구절
+  Worship: 찬양/예배
+  Quiet Time: QT (경건의 시간)
+
+  # Technical (kept in English in Korean text)
+  WebSocket: WebSocket
+  PWA: PWA
+  Service Worker: Service Worker
+  CSS Variables: CSS 변수
+
+  # UI Elements
+  Score: 점수
+  Ranking: 순위
+  Submit: 제출
+  Next: 다음
+  Previous: 이전
+  Start: 시작
+  Settings: 설정
+
+  # Workflow Terms
+  Phase: 단계
+  Quality Gate: 품질 게이트
+  Deployment: 배포
+  Preview: 미리보기
+  Modification: 수정

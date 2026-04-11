@@ -1,0 +1,422 @@
+{
+  "version": "1.0.0",
+  "description": "Golden test suite for AI Autobiography Generator quality validation",
+  "created": "2026-03-17",
+  "test_cases": [
+    {
+      "id": "GT-001",
+      "name": "Childhood Memory - Sensory-Rich Nostalgia",
+      "life_stage": "childhood",
+      "emotional_depth": "medium",
+      "interview_excerpt": {
+        "meta": {
+          "session_id": "INT-001",
+          "subject_name": "Dr. Minjun Park",
+          "interviewer": "ai-guided",
+          "date": "2026-01-15",
+          "duration_minutes": 45,
+          "life_period": {
+            "label": "Childhood in Busan",
+            "start_year": 1975,
+            "end_year": 1987
+          },
+          "themes": ["family", "sense-of-place", "food-memories"],
+          "emotional_tone": "bittersweet"
+        },
+        "segments": [
+          {
+            "segment_id": "SEG-001",
+            "topic": "Grandmother's kitchen and weekend mornings",
+            "content": "Every Saturday morning, I would wake up to the sound of my grandmother chopping vegetables on that old wooden cutting board. The rhythm was so steady, like a metronome. Our apartment in Nampo-dong was tiny, maybe 40 square meters, but the kitchen felt enormous to me as a five-year-old. She made this anchovy broth — the smell would fill every corner of the apartment and seep into the hallway. The neighbors never complained. I think they liked it too. She would let me wash the green onions. I remember the cold water on my small hands and the gritty sand between the white roots. She never rushed me. She never said 'hurry up, we have to eat.' Time was different then. When the soup was ready, she would blow on my spoon before giving it to me. I am sixty years old and I still remember the exact temperature of that first sip — warm but never burning. She calibrated it perfectly every single time. I didn't know then that she was already sick. My parents hadn't told me. She kept cooking every Saturday until she couldn't anymore, and that was three years later. By then I could wash the green onions faster than anyone in the family.",
+            "key_quotes": [
+              {
+                "text": "I am sixty years old and I still remember the exact temperature of that first sip — warm but never burning. She calibrated it perfectly every single time.",
+                "context": "Reflecting on grandmother's care through food",
+                "usable_in_chapter": true
+              },
+              {
+                "text": "She never rushed me. She never said 'hurry up, we have to eat.' Time was different then.",
+                "context": "Contrast between childhood time perception and adult pace",
+                "usable_in_chapter": true
+              }
+            ],
+            "people_mentioned": [
+              {"name": "Grandmother (paternal)", "relationship": "grandmother"},
+              {"name": "Parents", "relationship": "parents"}
+            ],
+            "places_mentioned": [
+              {"name": "Nampo-dong apartment", "city": "Busan", "country": "South Korea", "years_relevant": [1975, 1976, 1977, 1978]}
+            ],
+            "emotional_markers": [
+              {"emotion": "nostalgia", "trigger": "anchovy broth smell", "intensity": 8},
+              {"emotion": "grief", "trigger": "grandmother's illness", "intensity": 7},
+              {"emotion": "tenderness", "trigger": "blowing on the spoon", "intensity": 9}
+            ]
+          }
+        ]
+      },
+      "expected_quality": {
+        "min_scores": {
+          "emotional_authenticity": 0.80,
+          "sensory_detail_preservation": 0.85,
+          "narrative_flow": 0.75,
+          "voice_consistency": 0.80,
+          "factual_grounding": 0.90
+        },
+        "required_elements": [
+          "Must preserve the anchovy broth sensory detail",
+          "Must include at least one direct quote from key_quotes",
+          "Must convey the grandmother's unstated illness without melodrama",
+          "Must maintain first-person retrospective voice",
+          "Must not invent new characters or events"
+        ],
+        "forbidden_elements": [
+          "No cliches like 'those were the best days of my life'",
+          "No psychoanalytic interpretation the subject did not provide",
+          "No invented dialogue beyond what is in the transcript",
+          "No present-tense narration unless used for literary effect"
+        ]
+      },
+      "pass_threshold": 0.78
+    },
+    {
+      "id": "GT-002",
+      "name": "Career Crisis - High-Stakes Professional Turning Point",
+      "life_stage": "mid-career",
+      "emotional_depth": "high",
+      "interview_excerpt": {
+        "meta": {
+          "session_id": "INT-007",
+          "subject_name": "Dr. Minjun Park",
+          "interviewer": "human",
+          "date": "2026-02-03",
+          "duration_minutes": 90,
+          "life_period": {
+            "label": "Samsung years and the departure",
+            "start_year": 2001,
+            "end_year": 2008
+          },
+          "themes": ["career-transition", "ethical-dilemma", "identity"],
+          "emotional_tone": "intense"
+        },
+        "segments": [
+          {
+            "segment_id": "SEG-001",
+            "topic": "Decision to leave Samsung Electronics",
+            "content": "People think leaving Samsung was brave. It wasn't brave. It was terrified. I had a mortgage, two kids under five, and my wife had just quit her job to take care of them. The rational thing was to stay. Every Korean engineer my age would have stayed. But there was this project — I can't give specifics even now because of the NDA — where I was asked to sign off on test results I hadn't verified personally. The results were probably correct. Ninety-five percent chance they were fine. But probably and certainly are different words, and in semiconductor quality assurance, that five percent can mean a recall affecting millions of devices. I brought it up with my team lead. He said I was overthinking it, that the upstream team had already validated. I went one level higher. The director told me the timeline couldn't accommodate re-testing. He wasn't wrong about the timeline. I lay awake for three nights. On the fourth morning, I wrote my resignation letter on the subway. I didn't even have a new job lined up. My wife didn't speak to me for two days when I told her. Not because she was angry — she understood — but because she was scared. We both were. That was November 2007, right before the financial crisis hit. The timing could not have been worse.",
+            "key_quotes": [
+              {
+                "text": "People think leaving Samsung was brave. It wasn't brave. It was terrified.",
+                "context": "Reframing what appears heroic from outside",
+                "usable_in_chapter": true
+              },
+              {
+                "text": "Probably and certainly are different words, and in semiconductor quality assurance, that five percent can mean a recall affecting millions of devices.",
+                "context": "Core ethical principle driving the decision",
+                "usable_in_chapter": true
+              }
+            ],
+            "people_mentioned": [
+              {"name": "Wife (Soojin)", "relationship": "spouse"},
+              {"name": "Team lead (unnamed)", "relationship": "supervisor"},
+              {"name": "Director (unnamed)", "relationship": "upper management"}
+            ],
+            "events": [
+              {
+                "description": "Resignation from Samsung Electronics",
+                "date_approximate": "November 2007",
+                "significance": "turning-point"
+              }
+            ],
+            "emotional_markers": [
+              {"emotion": "moral-conflict", "trigger": "signing off on unverified results", "intensity": 9},
+              {"emotion": "fear", "trigger": "financial exposure with family", "intensity": 8},
+              {"emotion": "isolation", "trigger": "wife's two-day silence", "intensity": 7}
+            ]
+          }
+        ]
+      },
+      "expected_quality": {
+        "min_scores": {
+          "emotional_authenticity": 0.85,
+          "sensory_detail_preservation": 0.70,
+          "narrative_flow": 0.80,
+          "voice_consistency": 0.85,
+          "factual_grounding": 0.90
+        },
+        "required_elements": [
+          "Must preserve the subversion of the 'bravery' narrative",
+          "Must convey the ethical dilemma without moralizing",
+          "Must include the financial/family context as counter-pressure",
+          "Must respect NDA constraints — no invention of project details",
+          "Must preserve the timing irony (pre-financial-crisis)"
+        ],
+        "forbidden_elements": [
+          "No heroic framing the subject explicitly rejects",
+          "No invented specifics about the Samsung project",
+          "No simplification of wife's reaction to anger/support binary",
+          "No retrospective wisdom the subject did not express"
+        ]
+      },
+      "pass_threshold": 0.82
+    },
+    {
+      "id": "GT-003",
+      "name": "Loss and Grief - Death of a Parent",
+      "life_stage": "adulthood",
+      "emotional_depth": "very-high",
+      "interview_excerpt": {
+        "meta": {
+          "session_id": "INT-012",
+          "subject_name": "Dr. Minjun Park",
+          "interviewer": "human",
+          "date": "2026-02-20",
+          "duration_minutes": 60,
+          "life_period": {
+            "label": "Father's illness and passing",
+            "start_year": 2015,
+            "end_year": 2016
+          },
+          "themes": ["loss", "family-duty", "regret", "reconciliation"],
+          "emotional_tone": "melancholic"
+        },
+        "segments": [
+          {
+            "segment_id": "SEG-001",
+            "topic": "Final conversation with father",
+            "content": "My father and I were not close in the way American families describe closeness. We didn't hug. We didn't say I love you. He showed love by paying for my education without ever mentioning the cost, and I showed love by getting top marks without him ever asking me to. It was a perfectly Korean arrangement. [long pause] When the oncologist said six months, my father's first question was about whether his insurance would cover the hospital stays. Not for himself — for my mother, so she wouldn't worry about money after. I flew back from California every month for those six months. On the last visit, he was too weak to sit up, but he asked me about my research. I was working on a paper about fault-tolerant computing. He was a mechanical engineer — he didn't understand the computer science — but he asked questions for forty minutes. Good questions. I realized he had been reading my published papers. He had printed them out. My mother showed me later — he had a folder with every paper I'd ever published, with sections highlighted in yellow. He never mentioned it. Not once in thirty years. [subject pauses, visibly emotional] I'm sorry. [pause] The last thing he said to me — and I don't know if he knew it would be the last time — he said, 'Your mother likes the persimmon trees in the garden. Don't let them die.' He didn't say goodbye. He told me to water the trees.",
+            "key_quotes": [
+              {
+                "text": "He showed love by paying for my education without ever mentioning the cost, and I showed love by getting top marks without him ever asking me to. It was a perfectly Korean arrangement.",
+                "context": "Defining Korean father-son emotional contract",
+                "usable_in_chapter": true
+              },
+              {
+                "text": "Your mother likes the persimmon trees in the garden. Don't let them die.",
+                "context": "Father's final words — care expressed through indirection",
+                "usable_in_chapter": true
+              }
+            ],
+            "people_mentioned": [
+              {"name": "Father (Park Sunwoo)", "relationship": "father"},
+              {"name": "Mother", "relationship": "mother"}
+            ],
+            "emotional_markers": [
+              {"emotion": "grief", "trigger": "discovering the folder of papers", "intensity": 10},
+              {"emotion": "regret", "trigger": "thirty years of unspoken pride", "intensity": 9},
+              {"emotion": "love", "trigger": "father's final words about persimmon trees", "intensity": 10}
+            ]
+          }
+        ]
+      },
+      "expected_quality": {
+        "min_scores": {
+          "emotional_authenticity": 0.90,
+          "sensory_detail_preservation": 0.75,
+          "narrative_flow": 0.80,
+          "voice_consistency": 0.85,
+          "factual_grounding": 0.95
+        },
+        "required_elements": [
+          "Must preserve the pauses and emotional breaks indicated in transcript",
+          "Must convey Korean family emotional dynamics without exoticizing",
+          "Must preserve the persimmon tree quote exactly or near-exactly",
+          "Must include the folder discovery as a climactic revelation",
+          "Must maintain restrained tone matching the subject's style"
+        ],
+        "forbidden_elements": [
+          "No saccharine or sentimental additions",
+          "No Western grief frameworks imposed on Korean family dynamics",
+          "No embellishment of the father's words",
+          "No therapeutic language the subject did not use",
+          "No invented bedside scenes"
+        ]
+      },
+      "pass_threshold": 0.85
+    },
+    {
+      "id": "GT-004",
+      "name": "Triumph - Academic Achievement Against Odds",
+      "life_stage": "young-adulthood",
+      "emotional_depth": "medium-high",
+      "interview_excerpt": {
+        "meta": {
+          "session_id": "INT-004",
+          "subject_name": "Dr. Minjun Park",
+          "interviewer": "ai-guided",
+          "date": "2026-01-22",
+          "duration_minutes": 55,
+          "life_period": {
+            "label": "PhD years at Stanford",
+            "start_year": 1997,
+            "end_year": 2001
+          },
+          "themes": ["education", "immigration", "perseverance", "imposter-syndrome"],
+          "emotional_tone": "reflective"
+        },
+        "segments": [
+          {
+            "segment_id": "SEG-001",
+            "topic": "First semester at Stanford and language barrier",
+            "content": "I arrived at Stanford in September 1997 with a TOEFL score of 580 and the absolute conviction that I was a fraud who would be discovered within the first week. My English was technical — I could read IEEE papers — but conversational English was a different universe. The first department mixer, someone asked me what I thought about the El Nino weather that year, and I thought they were asking about a research project. I said, 'I haven't read that paper yet.' Everyone laughed. Not cruelly — they thought I was making a joke — but I wasn't. I went back to my studio apartment, which was a converted garage in Palo Alto that cost me $800 a month, which was my entire stipend minus $200 for food, and I cried. Not from embarrassment but from the sudden certainty that I had made a catastrophic mistake. I called my mother. She said, 'You got in. They chose you. Now you choose to stay.' The next morning I started watching American television for three hours every day — Seinfeld, Friends, the local news — with a notebook. I wrote down every idiom, every joke I didn't understand, every cultural reference. I filled fourteen notebooks over four years. By my third year, I was TAing an undergraduate course and the evaluations said, 'Professor Park explains complex concepts in plain English better than native speakers.' I kept that evaluation. I still have it in my desk drawer.",
+            "key_quotes": [
+              {
+                "text": "You got in. They chose you. Now you choose to stay.",
+                "context": "Mother's phone advice during crisis of confidence",
+                "usable_in_chapter": true
+              },
+              {
+                "text": "I thought they were asking about a research project. I said, 'I haven't read that paper yet.'",
+                "context": "El Nino misunderstanding at first department mixer",
+                "usable_in_chapter": true
+              }
+            ],
+            "people_mentioned": [
+              {"name": "Mother", "relationship": "mother"}
+            ],
+            "places_mentioned": [
+              {"name": "Stanford University", "city": "Palo Alto", "country": "USA", "years_relevant": [1997, 1998, 1999, 2000, 2001]},
+              {"name": "Converted garage studio", "city": "Palo Alto", "country": "USA", "years_relevant": [1997, 1998]}
+            ],
+            "emotional_markers": [
+              {"emotion": "shame", "trigger": "El Nino misunderstanding", "intensity": 7},
+              {"emotion": "despair", "trigger": "conviction of fraud", "intensity": 8},
+              {"emotion": "determination", "trigger": "mother's phone call", "intensity": 9},
+              {"emotion": "pride", "trigger": "teaching evaluation", "intensity": 8}
+            ]
+          }
+        ]
+      },
+      "expected_quality": {
+        "min_scores": {
+          "emotional_authenticity": 0.82,
+          "sensory_detail_preservation": 0.75,
+          "narrative_flow": 0.85,
+          "voice_consistency": 0.80,
+          "factual_grounding": 0.88
+        },
+        "required_elements": [
+          "Must preserve the El Nino anecdote as told",
+          "Must include the 14-notebook detail as evidence of method",
+          "Must convey imposter syndrome without clinical framing",
+          "Must preserve mother's quote verbatim",
+          "Must include the arc from mixer humiliation to teaching triumph"
+        ],
+        "forbidden_elements": [
+          "No 'American Dream' framing",
+          "No stereotyping of Asian student experience",
+          "No invented study group scenes or mentor figures",
+          "No compression that loses the specificity of the garage apartment cost"
+        ]
+      },
+      "pass_threshold": 0.80
+    },
+    {
+      "id": "GT-005",
+      "name": "Late-Life Reflection - Legacy and Meaning",
+      "life_stage": "late-career",
+      "emotional_depth": "philosophical",
+      "interview_excerpt": {
+        "meta": {
+          "session_id": "INT-020",
+          "subject_name": "Dr. Minjun Park",
+          "interviewer": "human",
+          "date": "2026-03-10",
+          "duration_minutes": 75,
+          "life_period": {
+            "label": "Retirement and looking back",
+            "start_year": 2023,
+            "end_year": 2026
+          },
+          "themes": ["legacy", "meaning-making", "technology-philosophy", "mentorship"],
+          "emotional_tone": "reflective"
+        },
+        "segments": [
+          {
+            "segment_id": "SEG-001",
+            "topic": "What the career meant and what it missed",
+            "content": "Someone asked me at my retirement dinner to summarize my contribution to the field. I said something gracious about standing on the shoulders of giants. But the real answer, which I didn't give because it would have sounded either arrogant or depressing depending on interpretation, is that I spent thirty years trying to make machines fail more gracefully. That's fault-tolerant computing in one sentence. And now I wonder if I should have spent more of that energy making my own life more fault-tolerant. I optimized for the wrong system. [laughs] That sounds more bitter than I mean it. I had a good career. I published 147 papers. I graduated 23 PhD students. Twelve of them are now full professors. That network — those people — that's the real output, not the papers. The papers will be obsolete in ten years. The people won't be. My biggest regret is not about work, though. It's about the years between 2001 and 2010 when my children were small and I was chasing tenure and then chasing Samsung career milestones. My daughter once drew a picture of our family for school. In it, I am a tiny figure in the corner of the house, behind a desk, with a computer. Everyone else is in the living room. She was seven. She drew what she saw. I found that picture last year when we were moving, and I sat in the empty room and just... held it. You know, the fault-tolerant system I should have been designing was the one where my family could tolerate my faults. And I think they did. But they shouldn't have had to.",
+            "key_quotes": [
+              {
+                "text": "I spent thirty years trying to make machines fail more gracefully. And now I wonder if I should have spent more of that energy making my own life more fault-tolerant.",
+                "context": "Central metaphor connecting career to personal life",
+                "usable_in_chapter": true
+              },
+              {
+                "text": "The papers will be obsolete in ten years. The people won't be.",
+                "context": "Redefining career legacy",
+                "usable_in_chapter": true
+              },
+              {
+                "text": "The fault-tolerant system I should have been designing was the one where my family could tolerate my faults. And I think they did. But they shouldn't have had to.",
+                "context": "Climactic reflection on work-life imbalance",
+                "usable_in_chapter": true
+              }
+            ],
+            "people_mentioned": [
+              {"name": "Daughter", "relationship": "child"},
+              {"name": "PhD students", "relationship": "mentees"}
+            ],
+            "emotional_markers": [
+              {"emotion": "irony", "trigger": "fault-tolerant metaphor", "intensity": 7},
+              {"emotion": "pride", "trigger": "mentee achievements", "intensity": 8},
+              {"emotion": "regret", "trigger": "daughter's drawing", "intensity": 9},
+              {"emotion": "acceptance", "trigger": "overall career assessment", "intensity": 6}
+            ]
+          }
+        ]
+      },
+      "expected_quality": {
+        "min_scores": {
+          "emotional_authenticity": 0.88,
+          "sensory_detail_preservation": 0.70,
+          "narrative_flow": 0.85,
+          "voice_consistency": 0.85,
+          "factual_grounding": 0.90
+        },
+        "required_elements": [
+          "Must preserve the fault-tolerant computing metaphor as structuring device",
+          "Must include the daughter's drawing as concrete detail",
+          "Must convey irony without sarcasm",
+          "Must preserve specific numbers (147 papers, 23 PhD students, 12 professors)",
+          "Must maintain the ambivalence — neither pure regret nor pure satisfaction"
+        ],
+        "forbidden_elements": [
+          "No tidy resolution or 'but it was all worth it' conclusion",
+          "No invented grandchildren scenes",
+          "No maudlin expansion of the drawing scene",
+          "No Silicon Valley success-story framing"
+        ]
+      },
+      "pass_threshold": 0.83
+    }
+  ],
+  "global_thresholds": {
+    "overall_pass_rate": 0.80,
+    "min_any_dimension": 0.60,
+    "regression_delta_alert": -0.05,
+    "regression_delta_block": -0.10
+  },
+  "scoring_dimensions": {
+    "emotional_authenticity": {
+      "description": "Does the output honor the emotional truth of the source without amplification or diminishment?",
+      "weight": 0.25
+    },
+    "sensory_detail_preservation": {
+      "description": "Are specific sensory details from the interview preserved rather than generalized?",
+      "weight": 0.20
+    },
+    "narrative_flow": {
+      "description": "Does the prose read naturally with good pacing, transitions, and structure?",
+      "weight": 0.20
+    },
+    "voice_consistency": {
+      "description": "Is the narrative voice consistent with the subject's speaking style and personality?",
+      "weight": 0.20
+    },
+    "factual_grounding": {
+      "description": "Are all facts, dates, names, and events faithful to the source transcript?",
+      "weight": 0.15
+    }
+  }
+}

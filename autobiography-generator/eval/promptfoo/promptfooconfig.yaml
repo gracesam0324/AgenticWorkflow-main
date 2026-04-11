@@ -1,0 +1,309 @@
+# ============================================================================
+# promptfooconfig.yaml — Chapter Writer Evaluation Suite
+#
+# Evaluates the chapter-writer agent across 5 test cases with:
+#   - Voice consistency (llm-rubric)
+#   - Factual grounding (llm-rubric + javascript assertion)
+#   - Word count (javascript assertion)
+#   - Structural quality (javascript assertion)
+#   - Readability (javascript assertion)
+#
+# Usage:
+#   cd autobiography-generator/eval/promptfoo
+#   promptfoo eval
+#   promptfoo view        # opens HTML report
+#   promptfoo eval -o output/results.json  # save for CI
+# ============================================================================
+
+description: "AI Autobiography Generator — Chapter Writer Eval"
+
+prompts:
+  # Two prompt versions for A/B comparison
+  - file://../../agents/prompts/chapter-writer.md
+  # Add a second version when iterating:
+  # - file://../../agents/prompts/versions/chapter-writer-v1.0.1-*.md
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-20250514
+    config:
+      temperature: 0.8
+      max_tokens: 8000
+
+# Default test configuration applied to all test cases
+defaultTest:
+  options:
+    # Provider used for llm-rubric grading (can be cheaper model)
+    provider:
+      id: anthropic:messages:claude-sonnet-4-20250514
+      config:
+        temperature: 0.2
+        max_tokens: 2000
+
+tests:
+  # ────────────────────────────────────────────────────────────────
+  # Test 1: Childhood Chapter — Rich Source Material
+  # ────────────────────────────────────────────────────────────────
+  - description: "Childhood chapter with rich interview data (3 segments)"
+    vars:
+      chapter_number: "1"
+      chapter_title: "Salt Air and Sesame Oil"
+      chapter_outline: |
+        - Family home in Haeundae, Busan: apartment, sounds, smells
+        - Father's fishing supply shop and the fishermen regulars
+        - School struggles with math, discovery of science fiction
+        - Friendship with Taehyung and writing space adventures
+        - Father's philosophy: "Listen first, talk later"
+      source_transcripts:
+        file://../../test-data/micro-interviews/INT-001-childhood.json
+      voice_profile:
+        file://../../agents/voice-profile.yaml
+      previous_chapter_ending: "(This is the first chapter)"
+    assert:
+      # Word count: 3500-5000
+      - type: javascript
+        value: |
+          const words = output.split(/\s+/).filter(w => w.length > 0).length;
+          return words >= 3500 && words <= 5500;
+        metric: word_count_in_range
+
+      # Must be first-person narrative
+      - type: javascript
+        value: |
+          const iCount = (output.match(/\bI\b/g) || []).length;
+          return iCount >= 20;
+        metric: first_person_voice
+
+      # Must include key quotes from the transcript
+      - type: javascript
+        value: |
+          const requiredQuotes = [
+            "fisherman at heart",
+            "Listen first, talk later",
+            "even my cat could score higher"
+          ];
+          const found = requiredQuotes.filter(q => output.toLowerCase().includes(q.toLowerCase()));
+          return found.length >= 2;  // At least 2 of 3 key quotes
+        metric: key_quotes_present
+
+      # Voice consistency (LLM judge)
+      - type: llm-rubric
+        value: |
+          The text should sound like a casual, reflective storyteller who:
+          - Uses em-dash asides and self-corrections ("well, actually...")
+          - Speaks in compound sentences with a medium length
+          - Occasionally uses humor
+          - Favors concrete details over abstract statements
+          - Uses phrases like "you know", "the thing is", "I mean"
+          Rate how consistently the voice matches this profile.
+        threshold: 0.7
+        metric: voice_consistency
+
+      # Narrative quality (LLM judge)
+      - type: llm-rubric
+        value: |
+          The chapter should:
+          1. Open with a vivid scene, NOT exposition ("In this chapter..." is a failure)
+          2. Show rather than tell — use sensory details
+          3. Have smooth transitions between topics
+          4. End with a reflection or hook that could lead to the next chapter
+          5. Weave direct quotes naturally into the narrative
+          Rate the overall narrative craftsmanship.
+        threshold: 0.7
+        metric: narrative_quality
+
+  # ────────────────────────────────────────────────────────────────
+  # Test 2: University Chapter — Emotional Turning Point
+  # ────────────────────────────────────────────────────────────────
+  - description: "University chapter with career pivot and family tension"
+    vars:
+      chapter_number: "4"
+      chapter_title: "Seoul Hit Me Like a Wall"
+      chapter_outline: |
+        - Arriving in Seoul from Busan: culture shock, pace of life
+        - Dorm life at Yonsei: tiny room, mountain view
+        - Business major pressure from father
+        - Creative writing elective: Professor Choi reads his story
+        - Changing major secretly: three months of hiding the truth
+      source_transcripts:
+        file://../../test-data/micro-interviews/INT-002-university.json
+      voice_profile:
+        file://../../agents/voice-profile.yaml
+      previous_chapter_ending: |
+        I think that's why I became a writer. Not because of any single moment
+        or teacher or book. Because I learned to listen before I could even read
+        properly, sitting behind that counter in my father's shop.
+    assert:
+      - type: javascript
+        value: |
+          const words = output.split(/\s+/).filter(w => w.length > 0).length;
+          return words >= 3500 && words <= 5500;
+        metric: word_count_in_range
+
+      # Must reference the previous chapter's ending context
+      - type: javascript
+        value: |
+          const hasContinuity = output.toLowerCase().includes("busan") ||
+                                output.toLowerCase().includes("father") ||
+                                output.toLowerCase().includes("shop") ||
+                                output.toLowerCase().includes("listen");
+          return hasContinuity;
+        metric: chapter_continuity
+
+      # Emotional arc check
+      - type: llm-rubric
+        value: |
+          This chapter covers a major life transition. Rate whether:
+          1. The emotional journey is clear (anxiety → discovery → guilt → determination)
+          2. The contrast between Mrs. Kim (humiliation) and Professor Choi (validation) is drawn
+          3. The father-son tension about the major change is conveyed with nuance, not melodrama
+          4. Seoul as a character/force is established through sensory details
+        threshold: 0.7
+        metric: emotional_arc
+
+      - type: llm-rubric
+        value: |
+          The text should sound like a casual, reflective storyteller who uses
+          em-dash asides, self-corrections, compound sentences, and concrete details.
+          Check for consistent voice throughout.
+        threshold: 0.7
+        metric: voice_consistency
+
+  # ────────────────────────────────────────────────────────────────
+  # Test 3: Minimal Source — Tests Restraint (No Hallucination)
+  # ────────────────────────────────────────────────────────────────
+  - description: "Minimal source material — agent must NOT invent details"
+    vars:
+      chapter_number: "7"
+      chapter_title: "The Quiet Years"
+      chapter_outline: |
+        - A period of reflection and routine
+        - Daily life without major events
+      source_transcripts: |
+        {
+          "meta": {
+            "session_id": "INT-005",
+            "subject_name": "Park Jimin",
+            "interviewer": "ai-guided",
+            "date": "2026-03-15",
+            "duration_minutes": 15,
+            "life_period": {"label": "Late twenties", "start_year": 2018, "end_year": 2020},
+            "themes": ["routine"],
+            "emotional_tone": "neutral"
+          },
+          "segments": [{
+            "segment_id": "SEG-001",
+            "topic": "Daily routine",
+            "content": "Those years were quiet. I wrote every morning at a cafe near my apartment in Mapo-gu. I ordered the same thing every day — an americano and a sesame bread. The barista, Yuna, she knew my order before I sat down. I was working on my second novel but it was going slowly. Some days I wrote 2000 words, some days I deleted 3000."
+          }]
+        }
+      voice_profile:
+        file://../../agents/voice-profile.yaml
+      previous_chapter_ending: "The city had taught me its rhythms, and now I moved to my own."
+    assert:
+      # With minimal source, output should be shorter
+      - type: javascript
+        value: |
+          const words = output.split(/\s+/).filter(w => w.length > 0).length;
+          return words >= 1000 && words <= 3000;
+        metric: word_count_restrained
+
+      # Must NOT invent characters not in the source
+      - type: llm-rubric
+        value: |
+          The source material only mentions: Park Jimin, a barista named Yuna, and references
+          to a cafe in Mapo-gu. The chapter should NOT introduce any new named characters,
+          specific events, or detailed scenes that are not grounded in the source segment.
+          Minor reasonable inferences (like weather, general city atmosphere) are acceptable.
+          Invented dialogue, new characters, or fabricated plot events are NOT acceptable.
+          Rate how well the chapter stays within the bounds of the source material.
+        threshold: 0.8
+        metric: no_hallucination
+
+  # ────────────────────────────────────────────────────────────────
+  # Test 4: Multi-Session Chapter — Cross-Reference Handling
+  # ────────────────────────────────────────────────────────────────
+  - description: "Chapter drawing from two interview sessions"
+    vars:
+      chapter_number: "3"
+      chapter_title: "Between Two Worlds"
+      chapter_outline: |
+        - Growing up and leaving Busan behind
+        - The contrast between childhood simplicity and teenage ambition
+        - Father's expectations vs. emerging personal identity
+      source_transcripts: |
+        [
+          {"file": "test-data/micro-interviews/INT-001-childhood.json"},
+          {"file": "test-data/micro-interviews/INT-002-university.json"}
+        ]
+      voice_profile:
+        file://../../agents/voice-profile.yaml
+      previous_chapter_ending: "The notebooks were getting thinner, but the stories inside them were getting bigger."
+    assert:
+      - type: javascript
+        value: |
+          const words = output.split(/\s+/).filter(w => w.length > 0).length;
+          return words >= 3500 && words <= 5500;
+        metric: word_count_in_range
+
+      # Must reference elements from BOTH sessions
+      - type: javascript
+        value: |
+          const fromINT001 = output.includes("Busan") || output.includes("Haeundae") || output.includes("Taehyung");
+          const fromINT002 = output.includes("Seoul") || output.includes("Yonsei") || output.includes("Professor Choi");
+          return fromINT001 && fromINT002;
+        metric: multi_source_integration
+
+      - type: llm-rubric
+        value: |
+          This chapter bridges childhood and university. Rate whether it creates a
+          coherent thematic arc that connects the two periods rather than just
+          sequentially listing events from each.
+        threshold: 0.7
+        metric: thematic_coherence
+
+  # ────────────────────────────────────────────────────────────────
+  # Test 5: Voice Drift Detection — Prompt Regression Guard
+  # ────────────────────────────────────────────────────────────────
+  - description: "Voice drift test — output must NOT sound generic"
+    vars:
+      chapter_number: "1"
+      chapter_title: "Salt Air and Sesame Oil"
+      chapter_outline: |
+        - Family home and childhood memories
+        - Father's shop and life lessons
+      source_transcripts:
+        file://../../test-data/micro-interviews/INT-001-childhood.json
+      voice_profile:
+        file://../../agents/voice-profile.yaml
+      previous_chapter_ending: "(This is the first chapter)"
+    assert:
+      # Anti-generic voice check
+      - type: llm-rubric
+        value: |
+          This is a regression test for voice drift. The output MUST NOT:
+          1. Sound like a Wikipedia biography
+          2. Use passive voice predominantly
+          3. Sound like a corporate report or academic paper
+          4. Use generic phrases like "Throughout his life", "He was known for",
+             "It was during this time that", "One of the most important"
+          5. Lose the subject's specific speech patterns (em-dashes, self-corrections,
+             "you know", "the thing is")
+
+          The output MUST sound like a specific person telling their own story in a
+          distinctive voice. Rate how unique and personal the voice is (NOT generic).
+        threshold: 0.8
+        metric: voice_drift_guard
+
+      # Structural check: must open with scene
+      - type: javascript
+        value: |
+          const firstLines = output.split('\n').filter(l => l.trim() && !l.startsWith('#')).slice(0, 2).join(' ');
+          const weakOpeners = ['in this chapter', 'this chapter', 'throughout', 'it was during', 'one of the'];
+          return !weakOpeners.some(w => firstLines.toLowerCase().startsWith(w));
+        metric: scene_opening
+
+# Output configuration
+outputPath: output/eval-results.json
+
+# Transform for prompt variable injection
+# The prompts reference {{variables}} which promptfoo replaces automatically

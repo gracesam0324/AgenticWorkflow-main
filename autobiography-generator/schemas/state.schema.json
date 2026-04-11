@@ -1,0 +1,272 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "state.schema.json",
+  "title": "Workflow State (SOT)",
+  "description": "Schema for .claude/state.yaml — the Single Source of Truth for the autobiography generation workflow. Only the Orchestrator writes to this file. All other agents read only.",
+  "type": "object",
+  "required": ["workflow"],
+  "properties": {
+    "workflow": {
+      "type": "object",
+      "required": ["name", "current_step", "status", "parent_genome", "outputs", "book_config"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "AI Autobiography Generator"
+        },
+        "current_step": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 30
+        },
+        "status": {
+          "type": "string",
+          "enum": ["not_started", "in_progress", "completed", "failed", "paused"]
+        },
+        "parent_genome": {
+          "type": "object",
+          "required": ["source", "version", "inherited_dna"],
+          "properties": {
+            "source": { "type": "string", "const": "AgenticWorkflow" },
+            "version": { "type": "string" },
+            "inherited_dna": {
+              "type": "array",
+              "items": { "type": "string" },
+              "minItems": 8
+            }
+          }
+        },
+        "book_config": {
+          "type": "object",
+          "required": ["subject_name", "total_chapters", "target_word_count"],
+          "properties": {
+            "subject_name": { "type": "string", "minLength": 1 },
+            "total_chapters": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 50
+            },
+            "target_word_count": {
+              "type": "integer",
+              "minimum": 10000,
+              "maximum": 500000
+            },
+            "narrative_voice": {
+              "type": "string",
+              "enum": ["first-person-past", "first-person-present", "third-person-limited", "third-person-omniscient"]
+            },
+            "language": {
+              "type": "string",
+              "default": "en"
+            }
+          }
+        },
+        "outputs": {
+          "type": "object",
+          "patternProperties": {
+            "^step-[0-9a-z.]+(-ko|-analysis)?$": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        "chapters": {
+          "type": "object",
+          "description": "Per-chapter tracking within the writing loop",
+          "patternProperties": {
+            "^ch-[0-9]+$": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": ["not_started", "drafting", "drafted", "reviewing", "revising", "approved", "final"]
+                },
+                "draft_version": { "type": "integer", "minimum": 0 },
+                "word_count": { "type": "integer", "minimum": 0 },
+                "review_rounds": { "type": "integer", "minimum": 0 },
+                "last_reviewer_pacs": { "type": "integer", "minimum": 0, "maximum": 100 },
+                "output_path": { "type": "string" },
+                "review_path": { "type": "string" }
+              }
+            }
+          }
+        },
+        "story_bible": {
+          "type": "object",
+          "properties": {
+            "path": { "type": "string" },
+            "version": { "type": "integer", "minimum": 0 },
+            "character_count": { "type": "integer", "minimum": 0 },
+            "event_count": { "type": "integer", "minimum": 0 },
+            "validated": { "type": "boolean" }
+          }
+        },
+        "story_blueprint": {
+          "type": "object",
+          "description": "Step 4 — User co-created story blueprint (structure, kickpoints, core message)",
+          "properties": {
+            "path": { "type": "string" },
+            "structure_type": {
+              "type": "string",
+              "enum": ["chronological", "thematic", "kickpoint-driven", "hybrid"]
+            },
+            "kickpoint_count": { "type": "integer", "minimum": 0 },
+            "core_message": { "type": "string" },
+            "user_approved": { "type": "boolean", "default": false }
+          }
+        },
+        "style_selection": {
+          "type": "object",
+          "description": "Step 8 — User-selected writing style and blending parameters",
+          "properties": {
+            "selected_style": { "type": "string" },
+            "blending_ratio": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "description": "0.0 = 100% observed voice, 1.0 = 100% skill style"
+            },
+            "calibration_version": { "type": "string" },
+            "voice_guide_updated": { "type": "boolean", "default": false },
+            "user_approved": { "type": "boolean", "default": false }
+          }
+        },
+        "interviews": {
+          "type": "object",
+          "properties": {
+            "total_sessions": { "type": "integer", "minimum": 0 },
+            "total_segments": { "type": "integer", "minimum": 0 },
+            "sessions_processed": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^INT-[0-9]{3}$" }
+            }
+          }
+        },
+        "pending_human_action": {
+          "type": "object",
+          "properties": {
+            "step": { "type": ["integer", "null"] },
+            "options": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "pacs": {
+          "type": "object",
+          "properties": {
+            "current_step_score": { "type": "integer", "minimum": 0, "maximum": 100 },
+            "dimensions": {
+              "type": "object",
+              "properties": {
+                "F": { "type": "integer", "minimum": 0, "maximum": 100 },
+                "C": { "type": "integer", "minimum": 0, "maximum": 100 },
+                "L": { "type": "integer", "minimum": 0, "maximum": 100 }
+              }
+            },
+            "weak_dimension": { "type": "string", "enum": ["F", "C", "L"] },
+            "history": {
+              "type": "object",
+              "patternProperties": {
+                "^step-[0-9]+$": {
+                  "type": "object",
+                  "properties": {
+                    "score": { "type": "integer" },
+                    "weak": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "verification": {
+          "type": "object",
+          "properties": {
+            "last_verified_step": { "type": "integer" },
+            "retries": {
+              "type": "object",
+              "patternProperties": {
+                "^step-[0-9]+$": { "type": "integer" }
+              }
+            }
+          }
+        },
+        "build": {
+          "type": "object",
+          "description": "Book build pipeline state",
+          "properties": {
+            "last_build_date": { "type": "string", "format": "date" },
+            "pdf_path": { "type": "string" },
+            "epub_path": { "type": "string" },
+            "build_status": {
+              "type": "string",
+              "enum": ["not_started", "building", "success", "failed"]
+            }
+          }
+        },
+        "autopilot": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": false },
+            "decision_log_dir": { "type": "string", "default": "autopilot-logs/" },
+            "auto_approved_steps": {
+              "type": "array",
+              "items": { "type": "integer" }
+            }
+          }
+        }
+      }
+    },
+    "orchestration": {
+      "type": "object",
+      "description": "v2.0 orchestration layer — additive only, never modifies workflow section",
+      "properties": {
+        "version": { "type": "string" },
+        "current_phase": {
+          "type": "string",
+          "enum": ["build", "research", "planning", "implementation", "export", "complete"]
+        },
+        "current_substep": { "type": ["string", "null"] },
+        "teams": { "type": "object" },
+        "tasks": {
+          "type": "object",
+          "properties": {
+            "total": { "type": "integer", "minimum": 0 },
+            "completed": { "type": "integer", "minimum": 0 },
+            "failed": { "type": "integer", "minimum": 0 },
+            "blocked": { "type": "integer", "minimum": 0 },
+            "items": { "type": "object" }
+          }
+        },
+        "fallback": {
+          "type": "object",
+          "properties": {
+            "activations": { "type": "array" },
+            "current_tier": { "type": "integer", "minimum": 1, "maximum": 4 }
+          }
+        },
+        "rlm": {
+          "type": "object",
+          "properties": {
+            "last_snapshot": { "type": "string" },
+            "knowledge_archive_path": { "type": "string" },
+            "session_count": { "type": "integer", "minimum": 0 },
+            "recovery_points": { "type": "array" }
+          }
+        },
+        "translation": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string", "enum": ["active", "paused", "complete"] },
+            "glossary_path": { "type": "string" },
+            "glossary_terms_count": { "type": "integer", "minimum": 0 },
+            "total_translations": { "type": "integer", "minimum": 0 },
+            "completed_translations": { "type": "integer", "minimum": 0 },
+            "pacs_history": { "type": "object" },
+            "pending_translations": { "type": "array" },
+            "pairs": { "type": "object" }
+          }
+        },
+        "error_log": { "type": "array" }
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+# hanja-dictionary.yaml — Sino-Korean word list for 한자어 density validation
+# Used by scripts/validate_chapter.py (§22.3 — 번역체 pattern 9)
+# 한자어 density > 40% per paragraph triggers a warning.
+# This is a representative sample — not exhaustive. Extend as needed.
+
+# Common 한자어 that signal overly formal / translationese style when overused
+high_density_markers:
+  # Abstract nouns (typical translationese signals)
+  - "가능성"
+  - "관련"
+  - "경우"
+  - "과정"
+  - "구조"
+  - "기반"
+  - "기본"
+  - "기준"
+  - "대상"
+  - "방법"
+  - "분야"
+  - "부분"
+  - "사항"
+  - "상황"
+  - "수준"
+  - "시점"
+  - "영향"
+  - "요소"
+  - "원인"
+  - "의미"
+  - "이유"
+  - "전체"
+  - "정도"
+  - "조건"
+  - "존재"
+  - "측면"
+  - "특성"
+  - "필요"
+  - "현상"
+  - "환경"
+  - "활동"
+  - "효과"
+
+  # Formal connectors / adverbs (translationese red flags)
+  - "특히"
+  - "실제로"
+  - "기본적으로"
+  - "일반적으로"
+  - "결과적으로"
+  - "근본적으로"
+  - "전반적으로"
+  - "구체적으로"
+  - "상대적으로"
+  - "절대적으로"
+
+# Threshold: if > 40% of content words in a paragraph are 한자어, flag it
+density_threshold: 0.40

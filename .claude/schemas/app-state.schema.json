@@ -1,0 +1,165 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "church-retreat-app-state",
+  "title": "Church Retreat App State (SOT)",
+  "description": "Single Source of Truth schema for church retreat app workflow",
+  "type": "object",
+  "required": ["workflow", "intent", "content", "architecture", "status", "quality", "history", "tdd", "translation"],
+  "properties": {
+    "workflow": {
+      "type": "object",
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "created_at": { "type": "string" },
+        "blueprint": { "type": "string" },
+        "parent_genome": {
+          "type": "object",
+          "properties": {
+            "source": { "type": "string" },
+            "inherited_dna": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "intent": {
+      "type": "object",
+      "properties": {
+        "app_type": { "type": "string", "enum": ["", "quiz", "score", "schedule", "lyrics", "stamps", "qt", "prayer", "photo", "combined"] },
+        "app_types_combined": { "type": "array", "items": { "type": "string" } },
+        "team_count": { "type": "integer", "minimum": 0 },
+        "team_names": { "type": "array", "items": { "type": "string" } },
+        "team_colors": { "type": "array", "items": { "type": "string" } },
+        "design_palette": { "type": "string", "enum": ["A", "B", "C"] },
+        "features": { "type": "array", "items": { "type": "string" } },
+        "admin_password": { "type": "string" }
+      }
+    },
+    "content": {
+      "type": "object",
+      "properties": {
+        "quiz_questions": { "type": "array" },
+        "schedule": { "type": "array" },
+        "lyrics": { "type": "array" },
+        "missions": { "type": "array" },
+        "bible_passages": { "type": "array" },
+        "custom_data": { "type": "object" }
+      }
+    },
+    "architecture": {
+      "type": "object",
+      "properties": {
+        "deployment_type": { "type": "string", "enum": ["", "lan", "static", "hybrid"] },
+        "tech_stack": { "type": "string", "enum": ["", "static", "node-ws", "node-hybrid"] },
+        "url_routes": { "type": "array", "items": { "type": "string" } },
+        "data_sync": { "type": "string", "enum": ["", "realtime", "static", "hybrid"] },
+        "has_admin": { "type": "boolean" },
+        "has_screen": { "type": "boolean" },
+        "has_pwa": { "type": "boolean" }
+      }
+    },
+    "status": {
+      "type": "object",
+      "required": ["current_phase"],
+      "properties": {
+        "current_phase": { "type": "integer", "minimum": 0, "maximum": 6 },
+        "research_complete": { "type": "boolean" },
+        "planning_complete": { "type": "boolean" },
+        "code_generated": { "type": "boolean" },
+        "quality_passed": { "type": "boolean" },
+        "deployed": { "type": "boolean" },
+        "project_folder": { "type": "string" },
+        "modification_count": { "type": "integer", "minimum": 0 },
+        "in_preview_loop": { "type": "boolean" },
+        "pending_action": { "type": ["string", "null"] },
+        "server_port": { "type": ["integer", "null"] },
+        "server_url": { "type": "string" },
+        "qr_path": { "type": "string" },
+        "bat_path": { "type": "string" },
+        "github_pages_url": { "type": ["string", "null"] },
+        "last_git_checkpoint": { "type": "string" },
+        "agent_team_active": { "type": "boolean" },
+        "fallback_tier": { "type": "integer", "minimum": 1, "maximum": 4 }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "properties": {
+        "q_gates": { "type": "object" },
+        "d_gates": { "type": "object" },
+        "app_specific_gates": { "type": "object" },
+        "pacs": {
+          "type": "object",
+          "properties": {
+            "F": { "type": "number", "minimum": 0, "maximum": 100 },
+            "C": { "type": "number", "minimum": 0, "maximum": 100 },
+            "L": { "type": "number", "minimum": 0, "maximum": 100 }
+          }
+        },
+        "pacs_score": { "type": "number", "minimum": 0, "maximum": 100 },
+        "last_verified": { "type": "string" },
+        "retry_count": { "type": "integer", "minimum": 0 },
+        "verify_log": { "type": "array" }
+      }
+    },
+    "history": {
+      "type": "object",
+      "properties": {
+        "modifications": { "type": "array" },
+        "exports": { "type": "array" },
+        "archive_path": { "type": ["string", "null"] },
+        "fallback_events": { "type": "array" }
+      }
+    },
+    "tdd": {
+      "type": "object",
+      "properties": {
+        "test_files": { "type": "array", "items": { "type": "string" } },
+        "last_run": { "type": "string" },
+        "pass_count": { "type": "integer", "minimum": 0 },
+        "fail_count": { "type": "integer", "minimum": 0 },
+        "coverage_percent": { "type": "number", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "translation": {
+      "type": "object",
+      "properties": {
+        "glossary_path": { "type": "string" },
+        "phases": {
+          "type": "object",
+          "patternProperties": {
+            "^[1-6]$": {
+              "type": "object",
+              "properties": {
+                "english_original": { "type": "string" },
+                "korean_translation": { "type": "string" },
+                "pacs": {
+                  "type": "object",
+                  "properties": {
+                    "Ft": { "type": "number", "minimum": 0, "maximum": 100 },
+                    "Ct": { "type": "number", "minimum": 0, "maximum": 100 },
+                    "Nt": { "type": "number", "minimum": 0, "maximum": 100 }
+                  }
+                },
+                "pacs_score": { "type": "number", "minimum": 0, "maximum": 100 },
+                "status": { "type": "string", "enum": ["pending", "in_progress", "completed", "skipped"] }
+              }
+            }
+          }
+        },
+        "t_gates": {
+          "type": "object",
+          "properties": {
+            "T1": { "type": "string" },
+            "T2": { "type": "string" },
+            "T3": { "type": "string" }
+          }
+        },
+        "total_translated_files": { "type": "integer", "minimum": 0 },
+        "glossary_entries_count": { "type": "integer", "minimum": 0 },
+        "last_translation": { "type": "string" }
+      }
+    }
+  }
+}

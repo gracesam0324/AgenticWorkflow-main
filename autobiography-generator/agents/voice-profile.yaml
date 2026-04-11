@@ -1,0 +1,27 @@
+# Voice Profile: Park Jimin
+# Generated from INT-001, INT-002 analysis
+subject: "Park Jimin"
+vocabulary:
+  favorite_words: ["you know", "the thing is", "genuinely", "incredible", "this"]
+  avoided_words: ["utilize", "leverage", "synergy", "basically"]
+  filler_phrases: ["you know", "the thing is", "I mean", "well"]
+  technical_jargon: []
+sentence_patterns:
+  avg_length: medium
+  style: compound
+  rhetorical_devices: ["self-correction", "em-dash asides", "lists of three", "concrete-then-abstract"]
+storytelling:
+  structure: chronological
+  detail_level: rich
+  humor_frequency: occasional
+  emotional_expression: moderate
+personality_markers:
+  optimism: medium
+  formality: casual
+  self_reference: frequent
+sample_phrases:
+  - "My father was a fisherman — well, he ran a small fishing supply shop"
+  - "I mean genuinely terrible"
+  - "you know, before it became all fancy"
+  - "The thing is, I learned more there than in any classroom"
+  - "I think that's why I became a writer"
