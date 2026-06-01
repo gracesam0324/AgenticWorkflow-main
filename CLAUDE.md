@@ -180,7 +180,12 @@ AgenticWorkflow/
 │   ├── scripts/                     (orchestrator + P1 validators + *_contract/*_generate)
 │   │   └── modules/                 (step1_lesson_plan … step5_self_check)
 │   ├── schemas/, agents/prompts/, config/, tests/
+│   ├── webapp/                      (브라우저 단독 SPA — Claude 직접 호출, 서버 없음)
 │   └── outputs/                     (lesson_plan(core)·teaching·praise·promo·package)
+├── [수업안 하위 시스템 문서]
+│   ├── LESSON-PACKAGE-README.md
+│   ├── LESSON-PACKAGE-USER-MANUAL.md
+│   └── LESSON-PACKAGE-ARCHITECTURE-AND-PHILOSOPHY.md
 ├── [자서전 하위 시스템 문서]
 │   ├── AUTOBIOGRAPHY-README.md
 │   ├── AUTOBIOGRAPHY-USER-MANUAL.md
@@ -241,7 +246,7 @@ AgenticWorkflow/
 | "논문 스타일로 써줘", "학술적 글쓰기" | `doctoral-writing` | SKILL.md |
 | "자서전 써줘", "내 이야기를 책으로", "autobiography" | `autobiography` | SKILL.md |
 | "수련회 앱", "앱 만들어줘", "교회 앱", "retreat app" | `church-retreat-app` | SKILL.md |
-| "수업안 설계", "수업안 자동", "lesson plan", "lesson package" | `lesson-package` (서브프로젝트) | `lesson-package-generator/scripts/orchestrator.py` (스킬 래퍼 Phase B 예정) |
+| "수업안 설계", "수업안 자동", "lesson plan", "lesson package" | `lesson-package` (서브프로젝트) | (교사) `lesson-package-generator/webapp/index.html` · (개발) `scripts/orchestrator.py` — 스킬 래퍼 Phase B 예정 |
 
 ## 설계 원칙
 
