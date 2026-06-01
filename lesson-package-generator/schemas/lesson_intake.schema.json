@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LessonIntake",
+  "type": "object",
+  "required": ["body_text", "audience", "volume", "emphasis"],
+  "properties": {
+    "body_text": { "type": "string", "minLength": 1 },
+    "audience": { "type": "string", "minLength": 1 },
+    "volume": { "type": "string", "minLength": 1 },
+    "emphasis": { "type": "string", "minLength": 1 },
+    "locale": { "type": "string", "default": "ko" },
+    "constraints": { "type": "string" }
+  },
+  "additionalProperties": false
+}

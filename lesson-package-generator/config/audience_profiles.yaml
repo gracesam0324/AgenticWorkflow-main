@@ -1,0 +1,8 @@
+# Audience profiles — used by validators (future)
+profiles:
+  youth_high_school:
+    label: "중고등부"
+    max_reading_grade: 10
+  children:
+    label: "어린이부"
+    max_reading_grade: 6

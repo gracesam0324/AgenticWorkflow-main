@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TeachingMaterialsV1",
+  "type": "object",
+  "required": ["format", "intake", "components", "slides"],
+  "properties": {
+    "format": { "const": "teaching-materials.v1" },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "target_grade_band": { "enum": ["middle_school"] }
+      }
+    },
+    "intake": {
+      "type": "object",
+      "required": ["body_text", "audience"],
+      "properties": {
+        "body_text": { "type": "string" },
+        "theme": { "type": "string" },
+        "audience": { "type": "string" }
+      }
+    },
+    "summary": { "type": "object" },
+    "components": {
+      "type": "object",
+      "required": ["intro_game", "discussion", "activity", "worksheet"]
+    },
+    "slides": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["order", "title", "bullets"],
+        "properties": {
+          "order": { "type": "integer" },
+          "title": { "type": "string" },
+          "bullets": { "type": "array" },
+          "speaker_notes": { "type": "string" },
+          "image_slot": { "type": "string" }
+        }
+      }
+    }
+  }
+}

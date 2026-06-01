@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PraiseWorshipV1",
+  "type": "object",
+  "required": ["format", "song", "music_generation"],
+  "properties": {
+    "format": { "const": "praise-worship.v1" },
+    "song": {
+      "type": "object",
+      "required": ["title", "lyrics", "structure"],
+      "properties": {
+        "lyrics": {
+          "type": "object",
+          "required": ["verse1", "chorus", "verse2", "bridge"]
+        }
+      }
+    },
+    "music_generation": {
+      "type": "object",
+      "required": ["prompt_combined", "prompt_structured", "provider"],
+      "properties": {
+        "provider": { "enum": ["suno"] },
+        "prompt_combined": { "type": "string", "minLength": 20 },
+        "prompt_structured": {
+          "type": "object",
+          "required": ["genre", "mood", "bpm", "vocal"],
+          "properties": {
+            "bpm": { "type": "integer", "minimum": 60, "maximum": 140 }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+outputs/*
+!outputs/.gitkeep
+projects/*/
+!projects/.gitkeep
+__pycache__/
+*.pyc
+.pytest_cache/
+state.yaml.tmp
+*.yaml.tmp

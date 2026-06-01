@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LessonPlan",
+  "type": "object",
+  "required": ["step_id", "sections"],
+  "properties": {
+    "step_id": { "const": "step1_lesson_plan" },
+    "status": { "type": "string" },
+    "sections": {
+      "type": "object",
+      "required": [
+        "learning_objectives",
+        "introduction",
+        "body_development",
+        "key_message",
+        "application",
+        "discussion_questions",
+        "closing",
+        "time_allocation"
+      ]
+    }
+  }
+}

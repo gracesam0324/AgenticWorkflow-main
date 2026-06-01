@@ -1,0 +1,5 @@
+anthropic>=0.40.0
+PyYAML>=6.0
+xhtml2pdf>=0.2.16
+edge-tts>=6.1.0
+Pillow>=10.0.0

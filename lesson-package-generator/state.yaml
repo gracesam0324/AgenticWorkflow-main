@@ -1,0 +1,43 @@
+meta:
+  package_id: ''
+  locale: ko
+workflow:
+  name: lesson-package
+  current_step: 5
+  status: completed
+  pending_gate: null
+intake:
+  audience: 중등부
+  volume: '90'
+  emphasis: 은혜 강조
+  body_text_ref: C:\Users\김성준\Desktop\AgenticWorkflow-main\lesson-package-generator\outputs\intake\lesson_intake.json
+run_supplementary:
+  teaching: true
+  praise: true
+  promo: true
+outputs:
+  step-1: C:\Users\김성준\Desktop\AgenticWorkflow-main\lesson-package-generator\outputs\lesson_plan\lesson_plan.json
+  step-5: C:\Users\김성준\Desktop\AgenticWorkflow-main\lesson-package-generator\outputs\package\lesson_package_manifest.json
+  package_bundle: C:\Users\김성준\Desktop\AgenticWorkflow-main\lesson-package-generator\outputs\package
+  step-2: C:\Users\김성준\Desktop\AgenticWorkflow-main\lesson-package-generator\outputs\teaching\teaching_materials.json
+  step-3: C:\Users\김성준\Desktop\AgenticWorkflow-main\lesson-package-generator\outputs\praise\praise_package.json
+  step-4: C:\Users\김성준\Desktop\AgenticWorkflow-main\lesson-package-generator\outputs\promo\promo_video.v1.json
+modules:
+  lesson_plan:
+    version: 1
+    artifact: C:\Users\김성준\Desktop\AgenticWorkflow-main\lesson-package-generator\outputs\lesson_plan\lesson_plan.json
+  teaching:
+    version: 1
+    artifact: C:\Users\김성준\Desktop\AgenticWorkflow-main\lesson-package-generator\outputs\teaching\teaching_materials.json
+    skipped: false
+  praise:
+    version: 1
+    artifact: C:\Users\김성준\Desktop\AgenticWorkflow-main\lesson-package-generator\outputs\praise\praise_package.json
+    skipped: false
+  promo:
+    version: 1
+    artifact: C:\Users\김성준\Desktop\AgenticWorkflow-main\lesson-package-generator\outputs\promo\promo_video.v1.json
+    skipped: false
+  integration:
+    version: 1
+    manifest: C:\Users\김성준\Desktop\AgenticWorkflow-main\lesson-package-generator\outputs\package\lesson_package_manifest.json
