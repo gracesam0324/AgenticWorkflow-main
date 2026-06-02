@@ -7,17 +7,17 @@ import re
 from pathlib import Path
 from typing import Any
 
-from scripts.claude_client import call_claude, _use_placeholder
-from scripts.io_helpers import read_prompt, project_root_from_script
-from scripts.modules._common import prompts_dir
-from scripts.promo_contract import (
+from content_common import _use_placeholder, call_claude, read_prompt
+
+from .contract import (
     FORMAT_VERSION,
+    load_downstream,
     placeholder_package,
     validate_promo_package,
-    load_downstream,
 )
 
-PROMPT_FILE = "step4_promo_video.md"
+PROMPTS_DIR = Path(__file__).resolve().parents[1] / "agents" / "prompts"
+PROMPT_FILE = "promo.md"
 STEP_ID = "step4_promo"
 
 
@@ -43,13 +43,16 @@ def resolve_prior(
         if isinstance(p, dict):
             praise = p.get("downstream", p) if "downstream" in p else p
 
-    root = project_root_from_script()
-    tdir = teaching_dir or root / "outputs" / "teaching"
-    pdir = praise_dir or root / "outputs" / "praise"
-    if teaching is None and (tdir / "teaching_materials.downstream.json").is_file():
-        teaching = load_downstream(tdir / "teaching_materials.downstream.json")
-    if praise is None and (pdir / "praise_worship.downstream.json").is_file():
-        praise = load_downstream(pdir / "praise_worship.downstream.json")
+    # Upstream context is optional and caller-supplied (data contract / explicit
+    # dir), so this module has no dependency on any other module's output dir.
+    if teaching is None and teaching_dir is not None:
+        f = teaching_dir / "teaching_materials.downstream.json"
+        if f.is_file():
+            teaching = load_downstream(f)
+    if praise is None and praise_dir is not None:
+        f = praise_dir / "praise_worship.downstream.json"
+        if f.is_file():
+            praise = load_downstream(f)
     return teaching, praise
 
 
