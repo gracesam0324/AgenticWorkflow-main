@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#4F46E5" />
+  <title>찬양 생성기</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="app-header__title"><span class="app-header__logo">🎵</span><span>찬양 생성기</span></div>
+    <button id="settingsBtn" class="icon-btn" aria-label="설정" title="API 키 설정">⚙️</button>
+  </header>
+
+  <main class="app-content">
+    <section id="inputSection" class="page-enter">
+      <div class="card">
+        <h2 class="card__title">찬양 만들기</h2>
+        <p class="card__sub">본문·테마·대상을 입력하면 중등부 오리지널 가사와 Suno 음악 프롬프트를 생성합니다.</p>
+        <form id="genForm" autocomplete="off">
+          <label class="field">
+            <span class="field__label">본문 <em>*</em></span>
+            <textarea id="bodyText" rows="4" placeholder="예) 누가복음 8:26-39 — 자유를 주신 예수" required></textarea>
+          </label>
+          <label class="field">
+            <span class="field__label">테마 / 강조점 <em>*</em></span>
+            <input id="theme" type="text" placeholder="예) 자유 / 은혜" required />
+          </label>
+          <label class="field">
+            <span class="field__label">대상 <em>*</em></span>
+            <input id="audience" type="text" placeholder="예) 중등부" required />
+          </label>
+          <button type="submit" id="generateBtn" class="btn btn--primary btn--block">✨ 생성하기</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="progressSection" hidden>
+      <div class="card">
+        <h2 class="card__title">생성 중</h2>
+        <div class="progress__item st-active">
+          <span class="progress__icon"><span class="spinner"></span></span>
+          <span><span class="progress__label">찬양 생성</span><br><span class="progress__detail" id="progDetail">Claude 호출 중…</span></span>
+        </div>
+        <button id="cancelBtn" class="btn btn--ghost btn--block" hidden>처음으로</button>
+      </div>
+    </section>
+
+    <section id="resultSection" hidden>
+      <div class="card result-head">
+        <div><h2 class="card__title" id="resultTitle">찬양</h2><p class="card__sub" id="resultMeta"></p></div>
+        <div class="result-actions">
+          <button id="dlJson" class="btn btn--ghost">⬇ JSON</button>
+          <button id="dlLyrics" class="btn btn--ghost">⬇ 가사 MD</button>
+          <button id="newBtn" class="btn btn--ghost">＋ 새로</button>
+        </div>
+      </div>
+      <div id="result"></div>
+    </section>
+  </main>
+
+  <div id="settingsModal" class="modal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__box" role="dialog" aria-modal="true">
+      <h2 class="card__title">설정</h2>
+      <label class="field">
+        <span class="field__label">Anthropic API 키</span>
+        <input id="apiKeyInput" type="password" placeholder="sk-ant-..." autocomplete="off" />
+        <span class="field__hint">이 브라우저(localStorage)에만 저장됩니다. <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">키 발급 →</a></span>
+      </label>
+      <label class="field">
+        <span class="field__label">모델</span>
+        <select id="modelSelect">
+          <option value="claude-sonnet-4-6">Claude Sonnet 4.6 (권장)</option>
+          <option value="claude-opus-4-8">Claude Opus 4.8 (최고 품질)</option>
+          <option value="claude-haiku-4-5-20251001">Claude Haiku 4.5 (경량)</option>
+        </select>
+      </label>
+      <div class="modal__actions">
+        <button class="btn btn--ghost" data-close>닫기</button>
+        <button id="settingsSave" class="btn btn--primary">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="./js/prompt.js"></script>
+  <script src="./js/api.js"></script>
+  <script src="./js/render.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>

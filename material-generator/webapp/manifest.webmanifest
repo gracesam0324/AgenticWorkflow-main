@@ -1,0 +1,10 @@
+{
+  "name": "교보재 생성기",
+  "short_name": "교보재",
+  "description": "본문·테마·대상으로 중등부 교보재를 생성합니다.",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F9FAFB",
+  "theme_color": "#4F46E5"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "찬양 생성기",
+  "short_name": "찬양",
+  "description": "본문·테마·대상으로 중등부 오리지널 찬양과 Suno 프롬프트를 생성합니다.",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F9FAFB",
+  "theme_color": "#4F46E5"
+}
