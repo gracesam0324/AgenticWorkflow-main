@@ -1,10 +1,16 @@
-"""Artifact I/O — JSON + markdown under outputs/."""
+"""Artifact I/O for lesson-package.
+
+Generic write/read helpers moved to `content-common` (Phase 0); the
+module-specific path helpers (`project_root_from_script`, `ensure_output_dirs`)
+stay here. Re-exported names keep existing imports working.
+See MODULE-EXTRACTION-PLAN.md.
+"""
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
-from typing import Any
+
+from content_common.io import read_prompt, write_json, write_text  # noqa: F401
 
 
 def project_root_from_script() -> Path:
@@ -23,23 +29,3 @@ def ensure_output_dirs(base: Path) -> dict[str, Path]:
     for path in dirs.values():
         path.mkdir(parents=True, exist_ok=True)
     return dirs
-
-
-def write_json(path: Path, data: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(data, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
-
-
-def write_text(path: Path, text: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(text, encoding="utf-8")
-
-
-def read_prompt(prompt_path: Path) -> str:
-    if not prompt_path.is_file():
-        msg = f"Prompt file not found: {prompt_path}"
-        raise FileNotFoundError(msg)
-    return prompt_path.read_text(encoding="utf-8")
