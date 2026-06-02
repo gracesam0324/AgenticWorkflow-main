@@ -475,9 +475,9 @@ modules:
 | Step 1 P1 | `scripts/validate_lesson_plan.py` (LP1–LP10) |
 | Step 5 self-check | `scripts/modules/step5_self_check.py` → `package_check.py` (deterministic PK1–PK13, real verdict) |
 | Step 5 P1 | `scripts/validate_package_integrity.py` (PK1–PK13) |
-| Steps 2–4 부가 | `step2_teaching`, `step3_praise`, `step4_promo` |
+| Steps 2–4 부가 | **외부 독립 모듈로 추출** — `material-generator` · `anthem-generator` · `promo-video-generator`. lesson-package는 `scripts/modules/step2_teaching·step3_praise·step4_promo` **shim**으로 호출(로직 중복 0). 상세: `MODULE-EXTRACTION-PLAN.md` |
 | Step 5 | `step5_self_check.py` |
-| Claude (single) | `scripts/claude_client.py` |
+| Claude (single) | `scripts/claude_client.py` — `content-common` 재노출 shim |
 | Options | `scripts/pipeline_options.py` |
 | Outputs | `outputs/lesson_plan/` (core), `teaching/`, `praise/`, `promo/`, `package/` |
 

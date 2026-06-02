@@ -194,14 +194,15 @@ from material_generator.teaching_generate import *   # noqa
 
 | Phase | 내용 | 종료 조건(그린) |
 |-------|------|----------------|
-| **P0 — 공유 추출** | `content-common` 생성, `claude_client`/`io_helpers`/프롬프트로더/json·minutes 유틸 이전(죽은 placeholder 헬퍼 제거). lesson-package는 shim으로 옛 경로 유지 | 기존 테스트 전부 통과 |
-| **P1 — material-generator** | 교보재 도메인 파일 이동 + 폴더 표준화 + orchestrator/validate + 단독 실행 + 테스트 이관. lesson-package는 import로 호출(또는 임시 shim) | §7.5 게이트 |
-| **P2 — anthem-generator** | 찬양 이동. 교보재 의존을 **downstream dict 주입**으로 전환(코드 의존 제거) | §7.5 게이트 |
-| **P3 — promo-video-generator** | 홍보영상 이동(+`assemble_promo_video.py`). 교보재·찬양 downstream 주입화 | §7.5 게이트 |
-| **P4 — shim 제거 + 정리** | 옛 re-export shim 삭제, 호출부 신규 경로 확정, 죽은 코드 제거 | 전체 그린 + grep으로 옛 경로 0건 |
-| **P5 — 문서·등록** | 모듈별 문서 3종(9개), `workflow.md` 3개, AGENTS §4/§6·CLAUDE 트리/스킬표 갱신, PLAN 동기화 | 링크·경로 검증 |
+| ✅ **P0 — 공유 추출** | `content-common` 생성(claude_client·io·read_prompt). lesson-package는 shim으로 옛 경로 유지. 죽은 placeholder 헬퍼 제거 | 완료 — 테스트 그린 (커밋 f2c5a33) |
+| ✅ **P1 — material-generator** | 교보재 도메인 파일 git mv + 패키지화 + 단독 run + 단독 테스트. lesson-package는 `step2_teaching` shim 호출 | 완료 — §7.5 게이트 통과 (07fd294) |
+| ✅ **P2 — anthem-generator** | 찬양 이동 + 교보재 경로 의존 제거(**downstream dict 주입**) | 완료 — §7.5 게이트 통과 (cd52ff5) |
+| ✅ **P3 — promo-video-generator** | 홍보영상 이동(+`assemble`). 교보재·찬양 downstream 주입화. tests 패키지명 충돌 해소 | 완료 — §7.5 게이트 통과 (b5548f0) |
+| ✅ **P4 — 정리 (shim 유지)** | `_common.run_step` 등 죽은 코드 제거. **shim은 영구 호환 레이어로 유지**(옵션 ② 선택) | 완료 — 11 passed/1 skip (aeb95bb) |
+| ✅ **P5 — 문서·등록** | 모듈별 문서 3종×3(9개) + `workflow.md`/`PLAN.md` 모듈별 + AGENTS §4/§6·CLAUDE 트리/스킬표 + PLAN 동기화 | 완료 |
 
 > 각 Phase는 독립 커밋. 문제가 생기면 직전 커밋으로 롤백.
+> **결과**: 세 부가물(교보재·찬양·홍보영상) 모두 독립 모듈화. 도메인 로직 중복 0, 모듈 간 코드 의존 0(데이터 계약만), lesson-package는 shim으로 재사용. shim은 의도적으로 유지(P4 옵션 ②).
 
 ---
 

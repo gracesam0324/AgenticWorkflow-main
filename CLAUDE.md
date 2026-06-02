@@ -177,15 +177,21 @@ AgenticWorkflow/
 ├── lesson-package-generator/         ← 수업안 패키지 생성 서브 프로젝트
 │   ├── PLAN.md                      (설계 v0.2 — 수업안 = MAIN)
 │   ├── workflow.md, state.yaml      (5단계 파이프라인 + SOT)
-│   ├── scripts/                     (orchestrator + P1 validators + *_contract/*_generate)
-│   │   └── modules/                 (step1_lesson_plan … step5_self_check)
+│   ├── scripts/                     (orchestrator + lesson_plan_* + package_check + P1 validators)
+│   │   └── modules/                 (step1·step5 실구현 / step2·3·4 = 추출 모듈 호출 shim)
 │   ├── schemas/, agents/prompts/, config/, tests/
 │   ├── webapp/                      (브라우저 단독 SPA — Claude 직접 호출, 서버 없음)
 │   └── outputs/                     (lesson_plan(core)·teaching·praise·promo·package)
+├── content-common/                   ← 공유 인프라 패키지 (call_claude·io·read_prompt)
+├── material-generator/               ← 교보재 독립 모듈 (teaching-materials.v1)
+├── anthem-generator/                 ← 찬양 독립 모듈 (praise-worship.v1)
+├── promo-video-generator/            ← 홍보영상 독립 모듈 (promo-video.v1, +ffmpeg)
 ├── [수업안 하위 시스템 문서]
 │   ├── LESSON-PACKAGE-README.md
 │   ├── LESSON-PACKAGE-USER-MANUAL.md
-│   └── LESSON-PACKAGE-ARCHITECTURE-AND-PHILOSOPHY.md
+│   ├── LESSON-PACKAGE-ARCHITECTURE-AND-PHILOSOPHY.md
+│   ├── MATERIAL-*.md · ANTHEM-*.md · PROMO-VIDEO-*.md  (모듈별 3종)
+│   └── MODULE-EXTRACTION-PLAN.md
 ├── [자서전 하위 시스템 문서]
 │   ├── AUTOBIOGRAPHY-README.md
 │   ├── AUTOBIOGRAPHY-USER-MANUAL.md
@@ -247,6 +253,9 @@ AgenticWorkflow/
 | "자서전 써줘", "내 이야기를 책으로", "autobiography" | `autobiography` | SKILL.md |
 | "수련회 앱", "앱 만들어줘", "교회 앱", "retreat app" | `church-retreat-app` | SKILL.md |
 | "수업안 설계", "수업안 자동", "lesson plan", "lesson package" | `lesson-package` (서브프로젝트) | (교사) `lesson-package-generator/webapp/index.html` · (개발) `scripts/orchestrator.py` — 스킬 래퍼 Phase B 예정 |
+| "교보재 만들어줘", "teaching materials" | `material-generator` (독립 모듈) | `material-generator/run.py` · `from material_generator import run` |
+| "찬양 만들어줘", "워십송", "praise" | `anthem-generator` (독립 모듈) | `anthem-generator/run.py` · `from anthem_generator import run` |
+| "홍보영상 만들어줘", "promo video" | `promo-video-generator` (독립 모듈) | `promo-video-generator/run.py` · `from promo_video_generator import run` |
 
 ## 설계 원칙
 
