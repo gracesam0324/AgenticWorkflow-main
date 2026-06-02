@@ -10,7 +10,12 @@ import sys as _sys
 from pathlib import Path as _Path
 
 _REPO_ROOT = _Path(__file__).resolve().parents[2]
-for _sibling in ("content-common",):
+for _sibling in (
+    "content-common",
+    "material-generator",
+    "anthem-generator",
+    "promo-video-generator",
+):
     _p = _REPO_ROOT / _sibling
     if _p.is_dir() and str(_p) not in _sys.path:
         _sys.path.insert(0, str(_p))

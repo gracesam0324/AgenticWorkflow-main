@@ -6,12 +6,14 @@ import json
 import re
 from typing import Any
 
-from scripts.claude_client import call_claude, _use_placeholder
-from scripts.io_helpers import read_prompt, project_root_from_script
-from scripts.modules._common import prompts_dir
-from scripts.teaching_contract import FORMAT_VERSION, placeholder_package, validate_teaching_package
+from pathlib import Path
 
-PROMPT_FILE = "step2_teaching_materials.md"
+from content_common import _use_placeholder, call_claude, read_prompt
+
+from .contract import FORMAT_VERSION, placeholder_package, validate_teaching_package
+
+PROMPTS_DIR = Path(__file__).resolve().parents[1] / "agents" / "prompts"
+PROMPT_FILE = "material.md"
 STEP_ID = "step2_teaching"
 
 
@@ -46,7 +48,7 @@ def generate_teaching_package(
         pkg["lesson_plan_ref"] = {"mode": "intake_only" if plan.get("derived_from") else "step1"}
         return pkg
 
-    system_prompt = read_prompt(prompts_dir() / PROMPT_FILE)
+    system_prompt = read_prompt(PROMPTS_DIR / PROMPT_FILE)
     user_payload: dict[str, Any] = {
         "intake": intake,
         "lesson_plan": plan,

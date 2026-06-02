@@ -7,7 +7,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from scripts.teaching_contract import IMG_PATTERN
+from .contract import IMG_PATTERN
 
 
 def _esc(text: str) -> str:
