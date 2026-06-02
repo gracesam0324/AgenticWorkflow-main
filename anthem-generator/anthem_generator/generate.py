@@ -7,17 +7,17 @@ import re
 from pathlib import Path
 from typing import Any
 
-from scripts.claude_client import call_claude, _use_placeholder
-from scripts.io_helpers import read_prompt, project_root_from_script
-from scripts.modules._common import prompts_dir
-from scripts.praise_contract import (
+from content_common import _use_placeholder, call_claude, read_prompt
+
+from .contract import (
     FORMAT_VERSION,
+    load_teaching_downstream,
     placeholder_package,
     validate_praise_package,
-    load_teaching_downstream,
 )
 
-PROMPT_FILE = "step3_praise_worship.md"
+PROMPTS_DIR = Path(__file__).resolve().parents[1] / "agents" / "prompts"
+PROMPT_FILE = "anthem.md"
 STEP_ID = "step3_praise"
 
 
@@ -33,13 +33,12 @@ def resolve_teaching(
     teaching: dict[str, Any] | None,
     teaching_dir: Path | None,
 ) -> dict[str, Any] | None:
+    # Teaching context is optional and caller-supplied (data contract), so this
+    # module has no dependency on any other module's output directory.
     if teaching is not None:
         return teaching
     if teaching_dir is not None:
         return load_teaching_downstream(teaching_dir)
-    default_dir = project_root_from_script() / "outputs" / "teaching"
-    if (default_dir / "teaching_materials.downstream.json").is_file():
-        return load_teaching_downstream(default_dir)
     return None
 
 
